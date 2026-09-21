@@ -1,384 +1,562 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Freelancer Marketplace</title>
-
+    <meta name="description" content="FreelanceHub — The premier marketplace connecting businesses with top vetted freelance developers, designers, and digital experts.">
+    <meta name="keywords" content="freelancer marketplace, hire developers, UI UX designers, web development, remote talent">
+    <title>FreelanceHub — Find & Hire Top Freelance Talent</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="FM.css">
 </head>
-
 <body>
+
+    <!-- Ambient Glowing Background -->
+    <div class="ambient-glow" aria-hidden="true">
+        <div class="glow-orb-1"></div>
+        <div class="glow-orb-2"></div>
+    </div>
 
     <!-- Navigation Bar -->
     <header>
         <nav class="navbar">
-
-            <div class="logo">
-                FreelanceHub
+            <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="logo-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                Freelance<span>Hub</span>
             </div>
 
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#freelancers">Freelancers</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#post-project">Post Project</a></li>
             </ul>
 
-            <button class="login-btn" onclick="loginUser()">
-                Login
-            </button>
+            <div class="nav-actions">
+                <!-- Theme Toggle Button -->
+                <button class="theme-btn" id="themeToggleBtn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+                    <svg id="themeIconSun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
 
+                <button class="btn btn-outline btn-sm" onclick="scrollToPostProject()">
+                    + Post a Job
+                </button>
+
+                <button class="btn btn-primary btn-sm" id="authNavBtn" onclick="openAuthModal()">
+                    Sign In
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Open Navigation">
+                    ☰
+                </button>
+            </div>
         </nav>
     </header>
 
-
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-pill">
+            <span class="pulse-dot"></span>
+            Verified Talent & Escrow Protected Platform
+        </div>
 
         <div class="hero-content">
-
             <h1>
-                Find the Right Freelancer
-                for Your Project
+                Find the <span class="gradient-text">Right Freelancer</span> for Your Next Project
             </h1>
 
             <p>
-                Connect with talented professionals,
-                manage projects and grow your business.
+                Connect with world-class engineers, designers, and creative experts.
+                Post projects seamlessly, collaborate securely, and achieve extraordinary results.
             </p>
 
-            <div class="hero-buttons">
-
-                <button onclick="scrollToProjects()">
-                    Find Projects
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" onclick="scrollToProjects()">
+                    Explore Projects
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                 </button>
-
-                <button
-                    class="secondary-btn"
-                    onclick="scrollToPostProject()">
+                <button class="btn btn-secondary btn-lg" onclick="scrollToPostProject()">
                     Post a Project
                 </button>
-
             </div>
 
-        </div>
+            <!-- Hero Quick Search Box -->
+            <div class="hero-search-wrapper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input 
+                    type="text" 
+                    id="heroSearchInput" 
+                    placeholder="Search by role, skill, or project title (e.g. React, UI/UX, Flutter)..."
+                    aria-label="Search projects">
+                <button class="btn btn-primary btn-sm" onclick="triggerHeroSearch()">
+                    Search
+                </button>
+            </div>
 
+            <!-- Quick Category Tags -->
+            <div class="hero-tags">
+                <span>Popular:</span>
+                <button class="hero-tag-btn" onclick="filterByTag('React')">React</button>
+                <button class="hero-tag-btn" onclick="filterByTag('UI/UX')">UI/UX Design</button>
+                <button class="hero-tag-btn" onclick="filterByTag('Mobile')">Mobile Apps</button>
+                <button class="hero-tag-btn" onclick="filterByTag('AI')">AI & ML</button>
+                <button class="hero-tag-btn" onclick="filterByTag('Full Stack')">Full Stack</button>
+            </div>
+        </div>
     </section>
 
-
-    <!-- Features -->
-    <section class="features">
-
-        <h2>Why Use FreelanceHub?</h2>
-
-        <div class="feature-container">
-
-            <div class="feature-card">
-                <div class="icon">👨‍💻</div>
-                <h3>Skilled Freelancers</h3>
-                <p>
-                    Find professionals with different
-                    skills and experience.
-                </p>
+    <!-- Platform Metrics -->
+    <div class="metrics-section">
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <span class="metric-number" data-target="15000">15,000+</span>
+                <span class="metric-label">Vetted Freelancers</span>
             </div>
-
-            <div class="feature-card">
-                <div class="icon">📁</div>
-                <h3>Project Management</h3>
-                <p>
-                    Post projects and manage your
-                    work efficiently.
-                </p>
+            <div class="metric-item">
+                <span class="metric-number" data-target="4800">4,800+</span>
+                <span class="metric-label">Completed Projects</span>
             </div>
-
-            <div class="feature-card">
-                <div class="icon">🔒</div>
-                <h3>Secure Collaboration</h3>
-                <p>
-                    Build trust through reviews,
-                    communication and secure payments.
-                </p>
+            <div class="metric-item">
+                <span class="metric-number" data-target="99">99.4%</span>
+                <span class="metric-label">Client Satisfaction</span>
             </div>
+            <div class="metric-item">
+                <span class="metric-number" data-target="18">₹1.8 Cr+</span>
+                <span class="metric-label">Paid to Freelancers</span>
+            </div>
+        </div>
+    </div>
 
+    <!-- Why Choose FreelanceHub -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-badge">Platform Advantages</span>
+            <h2>Why Choose FreelanceHub?</h2>
+            <p>We combine verified professional talent, transparent pricing, and bank-grade escrow protection.</p>
         </div>
 
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                </div>
+                <h3>Vetted & Verified Talent</h3>
+                <p>Top 2% developers, designers, and consultants rigorously evaluated for technical ability, communication, and reliability.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3>Secure Escrow Payments</h3>
+                <p>Funds are held safely in escrow and only released when you inspect and approve milestones, guaranteeing zero risk.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Fast Turnaround & Matching</h3>
+                <p>Receive tailored proposals within hours from freelancers equipped with the exact technology stack you require.</p>
+            </div>
+        </div>
     </section>
 
-
-    <!-- Projects Section -->
+    <!-- Available Projects Section -->
     <section id="projects" class="section">
-
-        <h2>Available Projects</h2>
-
-        <div class="search-container">
-
-            <input
-                type="text"
-                id="searchProject"
-                placeholder="Search projects..."
-                onkeyup="searchProjects()">
-
+        <div class="section-header">
+            <span class="section-badge">Open Opportunities</span>
+            <h2>Available Projects</h2>
+            <p>Browse high-paying jobs from verified clients and submit your proposal in one click.</p>
         </div>
 
-        <div id="project-list" class="project-container">
-
-            <!-- Project 1 -->
-            <div class="project-card">
-
-                <h3>Business Website Development</h3>
-
-                <p>
-                    Need a responsive website for
-                    a small business.
-                </p>
-
-                <p>
-                    <strong>Skills:</strong>
-                    HTML, CSS, JavaScript
-                </p>
-
-                <p class="budget">
-                    Budget: ₹15,000
-                </p>
-
-                <button onclick="applyProject(
-                    'Business Website Development'
-                )">
-                    Apply Now
-                </button>
-
+        <!-- Filter & Search Bar -->
+        <div class="filter-bar">
+            <div class="filter-categories" id="categoryFilters">
+                <button class="category-pill active" data-category="All">All Projects</button>
+                <button class="category-pill" data-category="Web Development">Web Dev</button>
+                <button class="category-pill" data-category="UI/UX & Design">UI/UX & Design</button>
+                <button class="category-pill" data-category="Mobile Apps">Mobile Apps</button>
+                <button class="category-pill" data-category="AI & Data">AI & Data</button>
             </div>
 
+            <div class="filter-controls-right">
+                <select id="budgetFilter" class="filter-select" aria-label="Filter by budget">
+                    <option value="all">All Budgets</option>
+                    <option value="under-10k">Under ₹10,000</option>
+                    <option value="10k-25k">₹10,000 – ₹25,000</option>
+                    <option value="above-25k">₹25,000+</option>
+                </select>
 
-            <!-- Project 2 -->
-            <div class="project-card">
-
-                <h3>Logo Design</h3>
-
-                <p>
-                    Create a professional logo
-                    for a startup.
-                </p>
-
-                <p>
-                    <strong>Skills:</strong>
-                    Photoshop, Illustrator
-                </p>
-
-                <p class="budget">
-                    Budget: ₹5,000
-                </p>
-
-                <button onclick="applyProject(
-                    'Logo Design'
-                )">
-                    Apply Now
-                </button>
-
+                <select id="sortFilter" class="filter-select" aria-label="Sort projects">
+                    <option value="newest">Newest First</option>
+                    <option value="budget-high">Budget: High to Low</option>
+                    <option value="budget-low">Budget: Low to High</option>
+                </select>
             </div>
-
-
-            <!-- Project 3 -->
-            <div class="project-card">
-
-                <h3>Mobile App Development</h3>
-
-                <p>
-                    Develop an Android application
-                    for a food delivery service.
-                </p>
-
-                <p>
-                    <strong>Skills:</strong>
-                    Java, Android, Firebase
-                </p>
-
-                <p class="budget">
-                    Budget: ₹30,000
-                </p>
-
-                <button onclick="applyProject(
-                    'Mobile App Development'
-                )">
-                    Apply Now
-                </button>
-
-            </div>
-
         </div>
 
+        <!-- Project Grid Container -->
+        <div id="project-list" class="project-grid">
+            <!-- Dynamically populated via FM.js -->
+        </div>
     </section>
 
-
-    <!-- Freelancers -->
-    <section id="freelancers" class="section freelancer-section">
-
-        <h2>Top Freelancers</h2>
-
-        <div class="freelancer-container">
-
-            <div class="freelancer-card">
-
-                <div class="profile-image">
-                    👨‍💻
-                </div>
-
-                <h3>Rahul Kumar</h3>
-
-                <p>Full Stack Developer</p>
-
-                <p class="rating">
-                    ⭐ 4.8 / 5
-                </p>
-
-                <p>
-                    HTML • CSS • JavaScript • React
-                </p>
-
-                <button onclick="viewProfile('Rahul Kumar')">
-                    View Profile
-                </button>
-
-            </div>
-
-
-            <div class="freelancer-card">
-
-                <div class="profile-image">
-                    👩‍🎨
-                </div>
-
-                <h3>Anjali Sharma</h3>
-
-                <p>Graphic Designer</p>
-
-                <p class="rating">
-                    ⭐ 4.9 / 5
-                </p>
-
-                <p>
-                    Photoshop • Illustrator • Figma
-                </p>
-
-                <button onclick="viewProfile('Anjali Sharma')">
-                    View Profile
-                </button>
-
-            </div>
-
-
-            <div class="freelancer-card">
-
-                <div class="profile-image">
-                    👨‍💻
-                </div>
-
-                <h3>Arjun Reddy</h3>
-
-                <p>Mobile App Developer</p>
-
-                <p class="rating">
-                    ⭐ 4.7 / 5
-                </p>
-
-                <p>
-                    Android • Java • Firebase
-                </p>
-
-                <button onclick="viewProfile('Arjun Reddy')">
-                    View Profile
-                </button>
-
-            </div>
-
+    <!-- Top Freelancers Section -->
+    <section id="freelancers" class="section" style="background: var(--bg-surface); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-badge">World-Class Talent</span>
+            <h2>Top-Rated Freelancers</h2>
+            <p>Explore profiles of verified experts with proven track records and 5-star ratings.</p>
         </div>
 
+        <!-- Freelancer Grid Container -->
+        <div id="freelancer-list" class="freelancer-grid">
+            <!-- Dynamically populated via FM.js -->
+        </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+        <div class="section-header">
+            <span class="section-badge">Simple Workflow</span>
+            <h2>How FreelanceHub Works</h2>
+            <p>A streamlined four-step workflow built to get your project moving in hours.</p>
+        </div>
 
-    <!-- Post Project -->
-    <section id="post-project" class="section post-section">
+        <div class="how-it-works-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <h3>Post Your Project</h3>
+                <p>Provide project specifications, timeline, required skill set, and budget to get instant visibility.</p>
+            </div>
 
-        <h2>Post Your Project</h2>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <h3>Review Proposals</h3>
+                <p>Compare proposals, examine verified freelancer portfolios, and conduct direct interviews.</p>
+            </div>
 
-        <form id="projectForm">
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <h3>Collaborate in Escrow</h3>
+                <p>Fund milestones safely. Funds stay protected until milestones are completed and verified by you.</p>
+            </div>
 
-            <label>
-                Project Title
-            </label>
-
-            <input
-                type="text"
-                id="projectTitle"
-                placeholder="Enter project title"
-                required>
-
-
-            <label>
-                Project Description
-            </label>
-
-            <textarea
-                id="projectDescription"
-                placeholder="Describe your project"
-                required></textarea>
-
-
-            <label>
-                Required Skills
-            </label>
-
-            <input
-                type="text"
-                id="projectSkills"
-                placeholder="Example: HTML, CSS, JavaScript"
-                required>
-
-
-            <label>
-                Budget
-            </label>
-
-            <input
-                type="number"
-                id="projectBudget"
-                placeholder="Enter budget"
-                required>
-
-
-            <button type="submit">
-                Post Project
-            </button>
-
-        </form>
-
+            <div class="step-card">
+                <div class="step-number">04</div>
+                <h3>Approve & Complete</h3>
+                <p>Review final deliverables, release funds securely, and leave a verified review.</p>
+            </div>
+        </div>
     </section>
 
+    <!-- Post Project Section -->
+    <section id="post-project" class="section">
+        <div class="section-header">
+            <span class="section-badge">Client Portal</span>
+            <h2>Post Your Project</h2>
+            <p>Publish your job posting and receive proposals from qualified freelancers today.</p>
+        </div>
+
+        <div class="post-section-wrapper">
+            <!-- Left: Form -->
+            <form id="projectForm" class="post-form">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input 
+                        type="text" 
+                        id="projectTitle" 
+                        placeholder="e.g. Modern E-Commerce Platform with Next.js & Stripe" 
+                        required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectCategory">Category</label>
+                        <select id="projectCategory" required>
+                            <option value="Web Development">Web Development</option>
+                            <option value="UI/UX & Design">UI/UX & Design</option>
+                            <option value="Mobile Apps">Mobile Apps</option>
+                            <option value="AI & Data">AI & Data</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectBudget">Budget (INR ₹)</label>
+                        <input 
+                            type="number" 
+                            id="projectBudget" 
+                            placeholder="e.g. 25000" 
+                            min="1000" 
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectSkills">Required Skills (Comma separated)</label>
+                    <input 
+                        type="text" 
+                        id="projectSkills" 
+                        placeholder="e.g. React, TailwindCSS, Node.js" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Project Description & Requirements</label>
+                    <textarea 
+                        id="projectDescription" 
+                        placeholder="Provide details about the project goals, scope of work, and expectations..." 
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 10px;">
+                    Publish Project Now
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Right: Live Card Preview -->
+            <div class="preview-box">
+                <div>
+                    <div class="preview-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 14 14"></polyline>
+                        </svg>
+                        Live Card Preview
+                    </div>
+
+                    <div class="project-card" style="box-shadow: none; pointer-events: none;">
+                        <div class="card-top">
+                            <span class="card-category-badge" id="previewCategory">Web Development</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Just now</span>
+                        </div>
+                        <h3 id="previewTitle">Your Project Title Appears Here</h3>
+                        <p class="project-desc" id="previewDesc">
+                            Describe your requirements to preview how candidates will view your job posting on the marketplace.
+                        </p>
+                        <div class="skills-wrapper" id="previewSkills">
+                            <span class="skill-tag">HTML</span>
+                            <span class="skill-tag">CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="budget-info">
+                                <span class="budget-label">Fixed Budget</span>
+                                <span class="budget-val" id="previewBudgetText">₹25,000</span>
+                            </div>
+                            <span class="btn btn-primary btn-sm">Apply Now</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 16px; text-align: center;">
+                    ⚡ Your posting will be immediately visible to thousands of vetted specialists.
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="logo" style="margin-bottom: 14px;">
+                    <div class="logo-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                    Freelance<span>Hub</span>
+                </div>
+                <p>The trusted global platform for hiring high-caliber freelance engineers, designers, and creative professionals.</p>
+            </div>
 
-        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#projects" onclick="filterByTag('React')">Web Development</a></li>
+                    <li><a href="#projects" onclick="filterByTag('UI/UX')">UI/UX & Design</a></li>
+                    <li><a href="#projects" onclick="filterByTag('Mobile')">Mobile Applications</a></li>
+                    <li><a href="#projects" onclick="filterByTag('AI')">AI & Machine Learning</a></li>
+                </ul>
+            </div>
 
-            <h3>FreelanceHub</h3>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#home">About Us</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#freelancers">Top Freelancers</a></li>
+                    <li><a href="#post-project">Post a Job</a></li>
+                </ul>
+            </div>
 
-            <p>
-                Connecting clients with talented
-                freelancers.
-            </p>
-
-            <p>
-                © 2026 FreelanceHub. All Rights Reserved.
-            </p>
-
+            <div class="footer-col">
+                <h4>Stay Updated</h4>
+                <p style="font-size: 13.5px;">Subscribe to our newsletter for curated job alerts and tech trends.</p>
+                <form class="newsletter-box" onsubmit="event.preventDefault(); showToast('Thank you for subscribing!', 'success'); this.reset();">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary btn-sm">Join</button>
+                </form>
+            </div>
         </div>
 
+        <div class="footer-bottom">
+            <p>© 2026 FreelanceHub. All rights reserved. Built with modern web standards.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#home">Privacy Policy</a>
+                <a href="#home">Terms of Service</a>
+                <a href="#home">Security</a>
+            </div>
+        </div>
     </footer>
 
+    <!-- Native Dialog Modals -->
 
+    <!-- 1. Apply for Project Modal -->
+    <dialog id="applyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalProjectTitle">Apply for Project</h3>
+                    <p id="modalProjectBudget" style="color: var(--accent-emerald); font-weight: 700; font-size: 14.5px; margin-top: 4px;"></p>
+                </div>
+                <button class="modal-close-btn" onclick="closeApplyModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <form id="applyForm" onsubmit="submitApplication(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bidAmount">Your Bid Amount (₹)</label>
+                        <input type="number" id="bidAmount" placeholder="e.g. 15000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryDays">Delivery Timeline</label>
+                        <select id="deliveryDays" required>
+                            <option value="3 Days">3 Days</option>
+                            <option value="7 Days" selected>7 Days</option>
+                            <option value="14 Days">14 Days</option>
+                            <option value="30 Days">30 Days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 12px;">
+                    <label for="coverLetter">Cover Letter / Why are you a good fit?</label>
+                    <textarea id="coverLetter" placeholder="Explain your relevant experience and how you will execute this project..." rows="4" required></textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 12px;">
+                    <label for="portfolioLink">Portfolio / GitHub Link (Optional)</label>
+                    <input type="url" id="portfolioLink" placeholder="https://github.com/yourhandle">
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeApplyModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Proposal</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- 2. Freelancer Profile Modal -->
+    <dialog id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Freelancer Profile</h3>
+                <button class="modal-close-btn" onclick="closeProfileModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div class="profile-modal-body" id="profileModalContent">
+                <!-- Dynamically populated via FM.js -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 3. Auth Modal (Sign In / Register) -->
+    <dialog id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Welcome to FreelanceHub</h3>
+                <button class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabSignIn" onclick="switchAuthTab('signin')">Sign In</button>
+                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div class="form-group" id="nameGroup" style="display: none; margin-bottom: 14px;">
+                    <label for="authName">Full Name</label>
+                    <input type="text" id="authName" placeholder="e.g. Jane Doe">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="authEmail">Email Address</label>
+                    <input type="email" id="authEmail" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px;" id="authSubmitBtn">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <!-- Main Logic Script -->
     <script src="FM.js"></script>
-
 </body>
 </html>
