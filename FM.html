@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Freelancer Marketplace</title>
+
+    <link rel="stylesheet" href="FM.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+                FreelanceHub
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#freelancers">Freelancers</a></li>
+                <li><a href="#post-project">Post Project</a></li>
+            </ul>
+
+            <button class="login-btn" onclick="loginUser()">
+                Login
+            </button>
+
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Find the Right Freelancer
+                for Your Project
+            </h1>
+
+            <p>
+                Connect with talented professionals,
+                manage projects and grow your business.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button onclick="scrollToProjects()">
+                    Find Projects
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="scrollToPostProject()">
+                    Post a Project
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Features -->
+    <section class="features">
+
+        <h2>Why Use FreelanceHub?</h2>
+
+        <div class="feature-container">
+
+            <div class="feature-card">
+                <div class="icon">👨‍💻</div>
+                <h3>Skilled Freelancers</h3>
+                <p>
+                    Find professionals with different
+                    skills and experience.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📁</div>
+                <h3>Project Management</h3>
+                <p>
+                    Post projects and manage your
+                    work efficiently.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🔒</div>
+                <h3>Secure Collaboration</h3>
+                <p>
+                    Build trust through reviews,
+                    communication and secure payments.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+
+        <h2>Available Projects</h2>
+
+        <div class="search-container">
+
+            <input
+                type="text"
+                id="searchProject"
+                placeholder="Search projects..."
+                onkeyup="searchProjects()">
+
+        </div>
+
+        <div id="project-list" class="project-container">
+
+            <!-- Project 1 -->
+            <div class="project-card">
+
+                <h3>Business Website Development</h3>
+
+                <p>
+                    Need a responsive website for
+                    a small business.
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    HTML, CSS, JavaScript
+                </p>
+
+                <p class="budget">
+                    Budget: ₹15,000
+                </p>
+
+                <button onclick="applyProject(
+                    'Business Website Development'
+                )">
+                    Apply Now
+                </button>
+
+            </div>
+
+
+            <!-- Project 2 -->
+            <div class="project-card">
+
+                <h3>Logo Design</h3>
+
+                <p>
+                    Create a professional logo
+                    for a startup.
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    Photoshop, Illustrator
+                </p>
+
+                <p class="budget">
+                    Budget: ₹5,000
+                </p>
+
+                <button onclick="applyProject(
+                    'Logo Design'
+                )">
+                    Apply Now
+                </button>
+
+            </div>
+
+
+            <!-- Project 3 -->
+            <div class="project-card">
+
+                <h3>Mobile App Development</h3>
+
+                <p>
+                    Develop an Android application
+                    for a food delivery service.
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    Java, Android, Firebase
+                </p>
+
+                <p class="budget">
+                    Budget: ₹30,000
+                </p>
+
+                <button onclick="applyProject(
+                    'Mobile App Development'
+                )">
+                    Apply Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Freelancers -->
+    <section id="freelancers" class="section freelancer-section">
+
+        <h2>Top Freelancers</h2>
+
+        <div class="freelancer-container">
+
+            <div class="freelancer-card">
+
+                <div class="profile-image">
+                    👨‍💻
+                </div>
+
+                <h3>Rahul Kumar</h3>
+
+                <p>Full Stack Developer</p>
+
+                <p class="rating">
+                    ⭐ 4.8 / 5
+                </p>
+
+                <p>
+                    HTML • CSS • JavaScript • React
+                </p>
+
+                <button onclick="viewProfile('Rahul Kumar')">
+                    View Profile
+                </button>
+
+            </div>
+
+
+            <div class="freelancer-card">
+
+                <div class="profile-image">
+                    👩‍🎨
+                </div>
+
+                <h3>Anjali Sharma</h3>
+
+                <p>Graphic Designer</p>
+
+                <p class="rating">
+                    ⭐ 4.9 / 5
+                </p>
+
+                <p>
+                    Photoshop • Illustrator • Figma
+                </p>
+
+                <button onclick="viewProfile('Anjali Sharma')">
+                    View Profile
+                </button>
+
+            </div>
+
+
+            <div class="freelancer-card">
+
+                <div class="profile-image">
+                    👨‍💻
+                </div>
+
+                <h3>Arjun Reddy</h3>
+
+                <p>Mobile App Developer</p>
+
+                <p class="rating">
+                    ⭐ 4.7 / 5
+                </p>
+
+                <p>
+                    Android • Java • Firebase
+                </p>
+
+                <button onclick="viewProfile('Arjun Reddy')">
+                    View Profile
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Post Project -->
+    <section id="post-project" class="section post-section">
+
+        <h2>Post Your Project</h2>
+
+        <form id="projectForm">
+
+            <label>
+                Project Title
+            </label>
+
+            <input
+                type="text"
+                id="projectTitle"
+                placeholder="Enter project title"
+                required>
+
+
+            <label>
+                Project Description
+            </label>
+
+            <textarea
+                id="projectDescription"
+                placeholder="Describe your project"
+                required></textarea>
+
+
+            <label>
+                Required Skills
+            </label>
+
+            <input
+                type="text"
+                id="projectSkills"
+                placeholder="Example: HTML, CSS, JavaScript"
+                required>
+
+
+            <label>
+                Budget
+            </label>
+
+            <input
+                type="number"
+                id="projectBudget"
+                placeholder="Enter budget"
+                required>
+
+
+            <button type="submit">
+                Post Project
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <div class="footer-content">
+
+            <h3>FreelanceHub</h3>
+
+            <p>
+                Connecting clients with talented
+                freelancers.
+            </p>
+
+            <p>
+                © 2026 FreelanceHub. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="FM.js"></script>
+
+</body>
+</html>
