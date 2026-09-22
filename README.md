@@ -171,13 +171,13 @@ User authentication and role-based permissions are managed via `localStorage`.
 
 ### Pre-Configured Test Credentials:
 
-| Role | Email Address | Password | Permissions |
+| Role | Username / Email | Password | Permissions |
 | :--- | :--- | :--- | :--- |
-| **🛡️ Admin** | `admin@freelancehub.com` | `admin123` | Full access to Admin Command Center, User RBAC, and Project Moderation |
+| **🛡️ Admin** | `prudhvi` *(or `prudhvi@freelancehub.com`)* | `prudhvi@2408` | Full access to Admin Command Center, User RBAC, and Project Moderation |
 | **🏢 Client** | `client@freelancehub.com` | `client123` | Post projects, view proposals, award contracts & allocate escrow |
 | **💻 Freelancer** | `rahul@freelancehub.com` | `user123` | Browse jobs, submit proposals, track bids, bookmark jobs |
 
-> 💡 **Quick Demo Login Feature**: The Auth Modal includes 1-click quick login buttons (`🛡️ Demo Admin`, `🏢 Demo Client`, `💻 Demo Freelancer`) so reviewers and evaluators can immediately switch between roles without manually typing credentials!
+> 💡 **Quick Demo Login Feature**: The Auth Modal includes 1-click quick login buttons (`🛡️ Demo Admin (prudhvi)`, `🏢 Demo Client`, `💻 Demo Freelancer`) so reviewers and evaluators can immediately switch between roles without manually typing credentials!
 
 ---
 

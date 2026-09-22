@@ -15,9 +15,10 @@
 const INITIAL_USERS = [
     {
         id: "usr-admin-1",
-        name: "Vikram Malhotra",
-        email: "admin@freelancehub.com",
-        password: "admin123",
+        name: "Prudhvi",
+        username: "prudhvi",
+        email: "prudhvi@freelancehub.com",
+        password: "prudhvi@2408",
         role: "Admin",
         status: "Active",
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=160&q=80",
@@ -262,7 +263,7 @@ const INITIAL_AUDIT_LOGS = [
     { id: "log-1", time: "2026-03-02 14:20", text: "Priya Patel submitted a proposal for 'AI Customer Support Assistant' (₹50,000)" },
     { id: "log-2", time: "2026-03-02 09:15", text: "MetricFlow Technologies accepted proposal from Anjali Sharma for ₹22,000 (Funds placed in Escrow)" },
     { id: "log-3", time: "2026-03-01 10:30", text: "Rahul Kumar submitted a proposal for 'Full-Stack SaaS Analytics Dashboard' (₹36,000)" },
-    { id: "log-4", time: "2026-03-01 08:00", text: "Admin Vikram Malhotra approved 6 initial platform projects" },
+    { id: "log-4", time: "2026-03-01 08:00", text: "Admin Prudhvi approved 6 initial platform projects" },
     { id: "log-5", time: "2026-02-28 16:45", text: "System database initialized with LocalStorage persistence" }
 ];
 
@@ -323,8 +324,22 @@ function loadStoredData() {
     if (storedUsers) {
         try {
             usersData = JSON.parse(storedUsers);
+            // Ensure Admin user matches requested credentials (username: prudhvi, password: prudhvi@2408)
+            const adminIdx = usersData.findIndex(u => u.role === "Admin" || u.username === "prudhvi" || u.email === "admin@freelancehub.com" || u.email === "prudhvi@freelancehub.com");
+            if (adminIdx !== -1) {
+                usersData[adminIdx].name = "Prudhvi";
+                usersData[adminIdx].username = "prudhvi";
+                usersData[adminIdx].email = "prudhvi@freelancehub.com";
+                usersData[adminIdx].password = "prudhvi@2408";
+                usersData[adminIdx].role = "Admin";
+                usersData[adminIdx].status = "Active";
+            } else {
+                usersData.unshift({ ...INITIAL_USERS[0] });
+            }
+            saveUsersToStorage();
         } catch (e) {
             usersData = [...INITIAL_USERS];
+            saveUsersToStorage();
         }
     } else {
         usersData = [...INITIAL_USERS];
@@ -385,6 +400,13 @@ function loadStoredData() {
     if (storedSession) {
         try {
             currentUser = JSON.parse(storedSession);
+            if (currentUser && currentUser.role === "Admin") {
+                currentUser.name = "Prudhvi";
+                currentUser.username = "prudhvi";
+                currentUser.email = "prudhvi@freelancehub.com";
+                currentUser.password = "prudhvi@2408";
+                localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(currentUser));
+            }
         } catch (e) {
             currentUser = null;
         }
@@ -631,11 +653,15 @@ function handleAuthSubmit(e) {
             navigateToModule("user");
         }
     } else {
-        // Sign In Flow
-        const user = usersData.find(u => u.email.toLowerCase() === email);
+        // Sign In Flow (supports username, email, or full name)
+        const user = usersData.find(u => 
+            (u.email && u.email.toLowerCase() === email) || 
+            (u.username && u.username.toLowerCase() === email) ||
+            (u.name && u.name.toLowerCase() === email)
+        );
 
         if (!user || user.password !== password) {
-            showToast("Invalid email or password. Please verify your credentials.", "warning");
+            showToast("Invalid username/email or password. Please verify your credentials.", "warning");
             return;
         }
 
@@ -666,7 +692,7 @@ function handleAuthSubmit(e) {
 function demoLogin(roleType) {
     let targetUser = null;
     if (roleType === "admin") {
-        targetUser = usersData.find(u => u.role === "Admin") || INITIAL_USERS[0];
+        targetUser = usersData.find(u => u.role === "Admin" || u.username === "prudhvi") || INITIAL_USERS[0];
     } else if (roleType === "client") {
         targetUser = usersData.find(u => u.role === "Client") || INITIAL_USERS[1];
     } else {
