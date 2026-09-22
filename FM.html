@@ -38,11 +38,12 @@
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#freelancers">Freelancers</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#post-project">Post Project</a></li>
+                <li><a href="javascript:void(0)" id="navLinkMarketplace" class="active" onclick="navigateToModule('marketplace')">Marketplace</a></li>
+                <li><a href="#projects" class="nav-sublink">Projects</a></li>
+                <li><a href="#freelancers" class="nav-sublink">Freelancers</a></li>
+                <li><a href="#how-it-works" class="nav-sublink">Workflow</a></li>
+                <li><a href="javascript:void(0)" id="navLinkUser" onclick="navigateToModule('user')">User Portal <span class="nav-module-badge" id="navUserRoleBadge">Client/Freelancer</span></a></li>
+                <li><a href="javascript:void(0)" id="navLinkAdmin" onclick="navigateToModule('admin')">Admin Panel <span class="nav-module-badge admin-badge">🛡️ Admin</span></a></li>
             </ul>
 
             <div class="nav-actions">
@@ -61,7 +62,7 @@
                     </svg>
                 </button>
 
-                <button class="btn btn-outline btn-sm" onclick="scrollToPostProject()">
+                <button class="btn btn-outline btn-sm" onclick="userSwitchToPostProject()">
                     + Post a Job
                 </button>
 
@@ -76,6 +77,11 @@
             </div>
         </nav>
     </header>
+
+    <!-- ====================================================================
+         PUBLIC MARKETPLACE MODULE VIEW
+         ==================================================================== -->
+    <div id="marketplaceModuleView" class="module-view active">
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -396,7 +402,442 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- END OF PUBLIC MARKETPLACE MODULE VIEW -->
+
+    <!-- ====================================================================
+         USER MODULE VIEW (CLIENT & FREELANCER WORKSPACE)
+         ==================================================================== -->
+    <div id="userModuleView" class="module-view">
+        <div class="module-banner">
+            <div class="module-banner-inner">
+                <div class="module-title-group">
+                    <h1>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        User Workspace & Dashboard
+                    </h1>
+                    <p id="userBannerGreeting">Manage your posted projects, review applicant proposals, and track your active bids.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span class="status-pill status-active" id="userRoleBadge">Client Mode</span>
+                    <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace')">← Explore Marketplace</button>
+                    <button class="btn btn-primary btn-sm" onclick="userSwitchToPostProject()">+ Post New Project</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-container">
+            <!-- Quick Stats Summary (CSS Grid) -->
+            <div class="kpi-grid" id="userStatsGrid">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">My Posted Projects</span>
+                        <h2 class="kpi-value" id="statUserPostedProjects">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Proposals Received</span>
+                        <h2 class="kpi-value" id="statUserProposalsReceived">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-cyan">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">My Submitted Bids</span>
+                        <h2 class="kpi-value" id="statUserSubmittedBids">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Saved Bookmarks</span>
+                        <h2 class="kpi-value" id="statUserBookmarks">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation (Flexbox) -->
+            <div class="module-tabs">
+                <button class="module-tab active" id="userTabBtnProjects" onclick="switchUserTab('projects')">
+                    📋 My Projects <span class="tab-badge" id="userBadgeProjects">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnProposals" onclick="switchUserTab('proposals')">
+                    💼 My Submitted Bids <span class="tab-badge" id="userBadgeProposals">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnSaved" onclick="switchUserTab('saved')">
+                    🔖 Saved Projects <span class="tab-badge" id="userBadgeSaved">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnProfile" onclick="switchUserTab('profile')">
+                    ⚙️ Profile Settings
+                </button>
+            </div>
+
+            <!-- Tab 1: My Posted Projects (Client View) -->
+            <div id="userTabContentProjects" class="user-tab-pane">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Client Project Management</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Review your posted job listings, inspect incoming proposals, and award contracts.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="userSwitchToPostProject()">+ Post New Job</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Category</th>
+                                    <th>Budget (₹)</th>
+                                    <th>Moderation Status</th>
+                                    <th>Proposals</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userProjectsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: My Submitted Bids (Freelancer View) -->
+            <div id="userTabContentProposals" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Freelancer Proposal Tracker</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Track all project bids you have submitted, along with delivery timelines and client decisions.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace'); scrollToProjects();">Browse More Jobs</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Bid Amount</th>
+                                    <th>Timeline</th>
+                                    <th>Submission Date</th>
+                                    <th>Proposal Status</th>
+                                    <th>Escrow State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userProposalsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Saved Projects -->
+            <div id="userTabContentSaved" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Bookmarked Opportunities</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Quickly access projects you have bookmarked for later application.</p>
+                        </div>
+                    </div>
+                    <div id="userSavedProjectsGrid" class="project-grid">
+                        <!-- Populated dynamically via FM.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Profile Settings -->
+            <div id="userTabContentProfile" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="profile-edit-grid">
+                        <div class="profile-card-static">
+                            <img id="userProfileStaticAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=160&q=80" alt="Avatar" class="profile-avatar-lg">
+                            <h3 id="userProfileStaticName">User Profile</h3>
+                            <p id="userProfileStaticRole" style="color: var(--primary-light); font-weight: 600; font-size: 14px; margin-top: 4px;">Registered Member</p>
+                            <div style="margin-top: 14px; font-size: 13px; color: var(--text-muted);" id="userProfileStaticEmail">user@example.com</div>
+                        </div>
+
+                        <form id="userProfileForm" onsubmit="handleUserProfileUpdate(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editProfileName">Full Name</label>
+                                    <input type="text" id="editProfileName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editProfileTitle">Professional Title / Company</label>
+                                    <input type="text" id="editProfileTitle" placeholder="e.g. Senior Full Stack Engineer">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editProfileHourly">Hourly Rate (or Budget Preference)</label>
+                                    <input type="text" id="editProfileHourly" placeholder="e.g. ₹2,500/hr">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editProfileSkills">Skills / Tech Stack (Comma separated)</label>
+                                    <input type="text" id="editProfileSkills" placeholder="React, Node.js, Python, UI/UX">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 12px;">
+                                <label for="editProfileBio">Bio / Professional Summary</label>
+                                <textarea id="editProfileBio" rows="4" placeholder="Share your experience, services, and qualifications..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top: 18px;">
+                                Save Profile Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         ADMIN MODULE VIEW (CONTROL PANEL & GOVERNANCE)
+         ==================================================================== -->
+    <div id="adminModuleView" class="module-view">
+        <div class="module-banner" style="background: linear-gradient(180deg, rgba(244, 63, 94, 0.08) 0%, transparent 100%);">
+            <div class="module-banner-inner">
+                <div class="module-title-group">
+                    <h1>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        Administrator Control Center
+                    </h1>
+                    <p>Platform governance, project moderation, role-based user management, and escrow tracking.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span class="status-pill status-role-admin">🛡️ Super Admin Mode</span>
+                    <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace')">← Public Marketplace</button>
+                    <button class="btn btn-secondary btn-sm" onclick="refreshAdminData()">↻ Refresh Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-container">
+            <!-- KPI Dashboard Summary Cards (CSS Grid) -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Registered Users</span>
+                        <h2 class="kpi-value" id="adminKpiUsers">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Total Projects</span>
+                        <h2 class="kpi-value" id="adminKpiProjects">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-cyan">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Pending Moderation</span>
+                        <h2 class="kpi-value" id="adminKpiPending" style="color: var(--accent-amber);">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 14 14"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Escrow Volume</span>
+                        <h2 class="kpi-value" id="adminKpiEscrow" style="color: var(--accent-emerald);">₹0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation (Flexbox) -->
+            <div class="module-tabs">
+                <button class="module-tab active" id="adminTabBtnProjects" onclick="switchAdminTab('projects')">
+                    ⚖️ Project Moderation <span class="tab-badge" id="adminBadgeProjects">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnUsers" onclick="switchAdminTab('users')">
+                    👥 User Directory & RBAC <span class="tab-badge" id="adminBadgeUsers">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnProposals" onclick="switchAdminTab('proposals')">
+                    📑 Proposals & Escrow Oversight <span class="tab-badge" id="adminBadgeProposals">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnLogs" onclick="switchAdminTab('logs')">
+                    📜 System Audit Logs
+                </button>
+            </div>
+
+            <!-- Tab 1: Project Moderation & Approval -->
+            <div id="adminTabContentProjects" class="admin-tab-pane">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Project Approval & Governance</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Approve or reject newly submitted client projects before they appear on the public marketplace.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <select id="adminProjectStatusFilter" class="filter-select" onchange="renderAdminProjectsTable()">
+                                <option value="all">All Moderation States</option>
+                                <option value="pending">Pending Approval</option>
+                                <option value="approved">Approved / Live</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Client / Employer</th>
+                                    <th>Category</th>
+                                    <th>Budget</th>
+                                    <th>Status</th>
+                                    <th>Governance Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProjectsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: User Directory & Access Control -->
+            <div id="adminTabContentUsers" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>User Management & Role-Based Access (RBAC)</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Manage registered accounts stored in LocalStorage, toggle account suspension, and manage roles.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="openCreateUserModal()">+ Add New User</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Assigned Role</th>
+                                    <th>Account Status</th>
+                                    <th>Joined Date</th>
+                                    <th>Administrative Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminUsersTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Proposals & Escrow Oversight -->
+            <div id="adminTabContentProposals" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Platform Proposals & Escrow Tracking</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Monitor all bids submitted across projects, verified milestone escrows, and platform fees.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Freelancer Applicant</th>
+                                    <th>Bid Amount</th>
+                                    <th>Timeline</th>
+                                    <th>Proposal Status</th>
+                                    <th>Escrow State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProposalsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: System Audit Logs -->
+            <div id="adminTabContentLogs" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Real-Time System Audit Log</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Chronological trail of administrative actions, moderation decisions, and user events.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="clearAuditLogs()">Clear Log History</button>
+                    </div>
+                    <div id="adminAuditLogsList" class="audit-list">
+                        <!-- Populated dynamically via FM.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -533,7 +974,16 @@
             <form id="authForm" onsubmit="handleAuthSubmit(event)">
                 <div class="form-group" id="nameGroup" style="display: none; margin-bottom: 14px;">
                     <label for="authName">Full Name</label>
-                    <input type="text" id="authName" placeholder="e.g. Jane Doe">
+                    <input type="text" id="authName" placeholder="e.g. Johnathan Doe">
+                </div>
+
+                <div class="form-group" id="roleGroup" style="display: none; margin-bottom: 14px;">
+                    <label for="authRole">Account Type / Role</label>
+                    <select id="authRole">
+                        <option value="Client" selected>Client / Employer (Post jobs & hire talent)</option>
+                        <option value="Freelancer">Freelancer (Browse projects & submit proposals)</option>
+                        <option value="Admin">Administrator (Manage & govern platform)</option>
+                    </select>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 14px;">
@@ -549,6 +999,80 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px;" id="authSubmitBtn">
                     Sign In
                 </button>
+            </form>
+
+            <!-- One-Click Demo Sign-In for Reviewers / Evaluators -->
+            <div class="demo-login-box">
+                <span class="demo-login-label">Quick Demo Access (One-Click Sign In):</span>
+                <div class="demo-btns">
+                    <button type="button" class="demo-btn" onclick="demoLogin('admin')">
+                        🛡️ Demo Admin
+                    </button>
+                    <button type="button" class="demo-btn" onclick="demoLogin('client')">
+                        🏢 Demo Client
+                    </button>
+                    <button type="button" class="demo-btn" onclick="demoLogin('freelancer')">
+                        💻 Demo Freelancer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 4. Client Proposals Inspector Dialog -->
+    <dialog id="clientProposalsModal">
+        <div class="modal-content" style="max-width: 680px;">
+            <div class="modal-header">
+                <div>
+                    <h3 id="clientProposalsModalTitle">Project Proposals</h3>
+                    <p id="clientProposalsModalSubtitle" style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;"></p>
+                </div>
+                <button class="modal-close-btn" onclick="closeClientProposalsModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div id="clientProposalsList" style="display: flex; flex-direction: column; gap: 14px; max-height: 480px; overflow-y: auto; padding-right: 4px;">
+                <!-- Populated dynamically via FM.js -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 5. Admin Create User Dialog -->
+    <dialog id="adminCreateUserModal">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3>Create New User Account</h3>
+                <button class="modal-close-btn" onclick="closeCreateUserModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <form id="adminCreateUserForm" onsubmit="handleAdminCreateUser(event)">
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserName">Full Name</label>
+                    <input type="text" id="newUserName" placeholder="e.g. Maya Lin" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserEmail">Email Address</label>
+                    <input type="email" id="newUserEmail" placeholder="maya@example.com" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserPassword">Initial Password</label>
+                    <input type="password" id="newUserPassword" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="newUserRole">Role Assignment</label>
+                    <select id="newUserRole">
+                        <option value="Freelancer">Freelancer</option>
+                        <option value="Client">Client</option>
+                        <option value="Admin">Administrator</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
             </form>
         </div>
     </dialog>
