@@ -3,52 +3,7 @@
  * Combined Vanilla JavaScript Engine
  */
 
-// --------------------------------------------------------------------------
-// Navigation & View Controller
-// --------------------------------------------------------------------------
-function navigateToModule(moduleId) {
-  // Hide all module views
-  document.querySelectorAll('.module-view').forEach(view => {
-    view.classList.remove('active');
-  });
-
-  // Update active states on nav links
-  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('data-module') === moduleId) {
-      link.classList.add('active');
-    }
-  });
-
-  let targetView = document.getElementById(moduleId + 'ModuleView');
-  if (moduleId === 'landing') {
-    targetView = document.getElementById('landingView');
-  }
-
-  if (targetView) {
-    targetView.classList.add('active');
-  }
-
-  // Adjust body scroll based on landing view
-  if (moduleId === 'landing') {
-    document.body.classList.add('view-landing');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    runCountUpAnimation();
-  } else {
-    document.body.classList.remove('view-landing');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // Trigger data rendering for specific modules
-  if (moduleId === 'marketplace') {
-    if (typeof renderProjects === 'function') renderProjects();
-    if (typeof renderFreelancers === 'function') renderFreelancers();
-  } else if (moduleId === 'user') {
-    if (typeof renderUserDashboard === 'function') renderUserDashboard();
-  } else if (moduleId === 'admin') {
-    if (typeof renderAdminDashboard === 'function') renderAdminDashboard();
-  }
-}
+// Module navigation is fully handled in unified navigateToModule below
 
 // --------------------------------------------------------------------------
 // Mobile Menu Controller (<=720px)
@@ -658,6 +613,28 @@ function logAuditEvent(text) {
 // 5. Module-Wise Navigation & JavaScript Redirection Engine
 // --------------------------------------------------------------------------
 function navigateToModule(moduleName) {
+    if (moduleName === "landing") {
+        currentModule = "landing";
+        const landingView = document.getElementById("landingView");
+        const marketView = document.getElementById("marketplaceModuleView");
+        const userView = document.getElementById("userModuleView");
+        const adminView = document.getElementById("adminModuleView");
+
+        if (landingView) landingView.classList.add("active");
+        if (marketView) marketView.classList.remove("active");
+        if (userView) userView.classList.remove("active");
+        if (adminView) adminView.classList.remove("active");
+
+        document.querySelectorAll(".nav-link, .mobile-nav-link").forEach(l => {
+            l.classList.toggle("active", l.getAttribute("data-module") === "landing");
+        });
+
+        document.body.classList.add("view-landing");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (typeof runCountUpAnimation === "function") runCountUpAnimation();
+        return true;
+    }
+
     // Role-Based Authorization Guard for Admin Panel
     if (moduleName === "admin") {
         if (!currentUser || currentUser.role !== "Admin") {
@@ -677,28 +654,22 @@ function navigateToModule(moduleName) {
     }
 
     currentModule = moduleName;
+    document.body.classList.remove("view-landing");
 
     // Toggle active module view container
+    const landingView = document.getElementById("landingView");
     const marketView = document.getElementById("marketplaceModuleView");
     const userView = document.getElementById("userModuleView");
     const adminView = document.getElementById("adminModuleView");
 
+    if (landingView) landingView.classList.remove("active");
     if (marketView) marketView.classList.toggle("active", moduleName === "marketplace");
     if (userView) userView.classList.toggle("active", moduleName === "user");
     if (adminView) adminView.classList.toggle("active", moduleName === "admin");
 
     // Update nav links active states
-    const navMarket = document.getElementById("navLinkMarketplace");
-    const navUser = document.getElementById("navLinkUser");
-    const navAdmin = document.getElementById("navLinkAdmin");
-
-    if (navMarket) navMarket.classList.toggle("active", moduleName === "marketplace");
-    if (navUser) navUser.classList.toggle("active", moduleName === "user");
-    if (navAdmin) navAdmin.classList.toggle("active", moduleName === "admin");
-
-    // Toggle visibility of Marketplace anchor sublinks
-    document.querySelectorAll(".nav-sublink").forEach(link => {
-        link.style.display = moduleName === "marketplace" ? "inline-block" : "none";
+    document.querySelectorAll(".nav-link, .mobile-nav-link").forEach(l => {
+        l.classList.toggle("active", l.getAttribute("data-module") === moduleName);
     });
 
     // Module-specific data rendering
