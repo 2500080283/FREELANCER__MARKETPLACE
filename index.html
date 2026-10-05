@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intelligence Designed To Evolve</title>
 
-  <!-- Inter Font via Google Fonts -->
+  <!-- Google Fonts: Inter (Landing UI), Outfit, Plus Jakarta Sans (Marketplace UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- BubbledotICG-FinePos Font via OnlineWebFonts CDN -->
+  <!-- BubbledotICG-FinePos Font via OnlineWebFonts CDN (Exact Retro Dot-Matrix Display) -->
   <link
     href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos"
     rel="stylesheet"
@@ -28,11 +28,11 @@
     referrerpolicy="no-referrer"
   />
 
-  <!-- Stylesheet -->
+  <!-- Single Combined Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- Full-viewport Cover Video Behind All UI -->
+<body class="view-landing">
+  <!-- Exact Full-Viewport Cover Video Behind All UI / All Interfaces -->
   <div class="bg">
     <video class="bg-video" autoplay muted loop playsinline>
       <source
@@ -42,127 +42,1137 @@
     </video>
   </div>
 
-  <div class="page">
-    <!-- 1) Header -->
-    <header class="header">
-      <!-- Circular Logo Button -->
-      <a href="#" class="brand-logo" aria-label="Home">
-        <img src="assets/logo.webp" alt="" width="52" height="52" />
-      </a>
+  <!-- Unified Global Header -->
+  <header class="header">
+    <!-- Circular Logo Button -->
+    <a href="javascript:void(0)" class="brand-logo" onclick="navigateToModule('landing')" aria-label="Home">
+      <img src="assets/logo.webp" alt="" width="52" height="52" />
+    </a>
 
-      <!-- Desktop Nav Pill (White) -->
-      <nav class="desktop-nav nav-pill" aria-label="Main Navigation">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#product" class="nav-link">Product</a>
-        <a href="#case-studies" class="nav-link">Case Studies</a>
-        <a href="#contact" class="nav-link">Contact</a>
-      </nav>
-
-      <!-- Desktop Sign In -->
-      <a href="#signin" class="desktop-signin btn-signin">Sign in</a>
-
-      <!-- Mobile Hamburger Button -->
-      <button
-        class="burger-btn"
-        id="burgerBtn"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false"
-        aria-controls="mobileMenu"
-      >
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-        <span class="burger-bar"></span>
-      </button>
-    </header>
-
-    <!-- Mobile Navigation Overlay & Sheet -->
-    <div class="mobile-overlay" id="mobileOverlay" hidden></div>
-    <nav class="mobile-sheet" id="mobileMenu" aria-label="Mobile Navigation" hidden>
-      <a href="#home" class="mobile-nav-link active">Home</a>
-      <a href="#product" class="mobile-nav-link">Product</a>
-      <a href="#case-studies" class="mobile-nav-link">Case Studies</a>
-      <a href="#contact" class="mobile-nav-link">Contact</a>
-      <a href="#signin" class="btn-signin">Sign in</a>
+    <!-- Desktop Nav Pill (White) -->
+    <nav class="desktop-nav nav-pill" aria-label="Main Navigation">
+      <a href="javascript:void(0)" class="nav-link active" data-module="landing" onclick="navigateToModule('landing')">Home</a>
+      <a href="javascript:void(0)" class="nav-link" data-module="marketplace" onclick="navigateToModule('marketplace')">Marketplace</a>
+      <a href="javascript:void(0)" class="nav-link" data-module="user" onclick="navigateToModule('user')">User Portal</a>
+      <a href="javascript:void(0)" class="nav-link" data-module="admin" onclick="navigateToModule('admin')">Admin Panel</a>
     </nav>
 
-    <!-- 2) Hero (Center) -->
-    <main class="hero">
-      <!-- Trust row (“Trusted by 2000+ Enterprises”) -->
-      <div class="trust-row anim" style="--d: 0.05s">
-        <div class="trust-avatars">
-          <div class="trust-avatar" title="Microsoft">
-            <div class="trust-avatar-inner">
-              <i class="fa-brands fa-microsoft" aria-hidden="true"></i>
+    <!-- Desktop Sign In -->
+    <button class="desktop-signin btn-signin" id="navSignInBtn" onclick="openAuthModal()">Sign in</button>
+
+    <!-- Mobile Hamburger Button -->
+    <button
+      class="burger-btn"
+      id="burgerBtn"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobileMenu"
+    >
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+    </button>
+  </header>
+
+  <!-- Mobile Navigation Overlay & Sheet -->
+  <div class="mobile-overlay" id="mobileOverlay" hidden></div>
+  <nav class="mobile-sheet" id="mobileMenu" aria-label="Mobile Navigation" hidden>
+    <a href="javascript:void(0)" class="mobile-nav-link active" data-module="landing" onclick="navigateToModule('landing'); setMobileMenuState(false);">Home</a>
+    <a href="javascript:void(0)" class="mobile-nav-link" data-module="marketplace" onclick="navigateToModule('marketplace'); setMobileMenuState(false);">Marketplace</a>
+    <a href="javascript:void(0)" class="mobile-nav-link" data-module="user" onclick="navigateToModule('user'); setMobileMenuState(false);">User Portal</a>
+    <a href="javascript:void(0)" class="mobile-nav-link" data-module="admin" onclick="navigateToModule('admin'); setMobileMenuState(false);">Admin Panel</a>
+    <button class="btn-signin" onclick="openAuthModal(); setMobileMenuState(false);">Sign in</button>
+  </nav>
+
+  <!-- ====================================================================
+       1) SINGLE-VIEWPORT VIDEO-BACKGROUND LANDING PAGE MODULE
+       ==================================================================== -->
+  <div id="landingView" class="module-view active">
+    <div class="page">
+      <!-- Hero (Center) -->
+      <main class="hero">
+        <!-- Trust row (“Trusted by 2000+ Enterprises”) -->
+        <div class="trust-row anim" style="--d: 0.05s">
+          <div class="trust-avatars">
+            <div class="trust-avatar" title="Microsoft">
+              <div class="trust-avatar-inner">
+                <i class="fa-brands fa-microsoft" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="trust-avatar" title="Amazon">
+              <div class="trust-avatar-inner">
+                <i class="fa-brands fa-amazon" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="trust-avatar" title="Google">
+              <div class="trust-avatar-inner">
+                <i class="fa-brands fa-google" aria-hidden="true"></i>
+              </div>
             </div>
           </div>
-          <div class="trust-avatar" title="Amazon">
-            <div class="trust-avatar-inner">
-              <i class="fa-brands fa-amazon" aria-hidden="true"></i>
-            </div>
+          <div class="trust-pill">Trusted by 2000+ Enterprises</div>
+        </div>
+
+        <!-- Headline (Exact two lines) -->
+        <h1 class="headline anim">
+          <span class="headline-line">Intelligence</span>
+          <span class="headline-line">Designed To Evolve</span>
+        </h1>
+
+        <!-- Subhead (Exact copy) -->
+        <p class="subhead anim" style="--d: 0.28s">
+          Build applications that reason, adapt and collaborate using a modular
+          AI platform designed for production.
+        </p>
+
+        <!-- CTA -->
+        <div class="cta-wrapper anim" style="--d: 0.4s">
+          <button class="btn-cta" onclick="navigateToModule('marketplace')">Get Started</button>
+        </div>
+      </main>
+
+      <!-- Stats Footer (Exact 4 metrics) -->
+      <footer class="stats" id="statsFooter">
+        <div class="stat-item anim" style="--d: 0.5s">
+          <div class="stat-top">
+            <span class="stat-icon">&lt;</span>
+            <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">ms</span></span>
           </div>
-          <div class="trust-avatar" title="Google">
-            <div class="trust-avatar-inner">
-              <i class="fa-brands fa-google" aria-hidden="true"></i>
-            </div>
+          <span class="stat-label">Inference Time</span>
+        </div>
+
+        <div class="stat-item anim" style="--d: 0.58s">
+          <div class="stat-top">
+            <span class="stat-icon">%</span>
+            <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">%</span></span>
           </div>
+          <span class="stat-label">Platform Uptime</span>
         </div>
-        <div class="trust-pill">Trusted by 2000+ Enterprises</div>
-      </div>
 
-      <!-- Headline (Exact two lines) -->
-      <h1 class="headline anim">
-        <span class="headline-line">Intelligence</span>
-        <span class="headline-line">Designed To Evolve</span>
-      </h1>
-
-      <!-- Subhead (Exact copy) -->
-      <p class="subhead anim" style="--d: 0.28s">
-        Build applications that reason, adapt and collaborate using a modular
-        AI platform designed for production.
-      </p>
-
-      <!-- CTA -->
-      <div class="cta-wrapper anim" style="--d: 0.4s">
-        <a href="#get-started" class="btn-cta">Get Started</a>
-      </div>
-    </main>
-
-    <!-- 3) Stats Footer (Exact 4 metrics) -->
-    <footer class="stats" id="statsFooter">
-      <div class="stat-item anim" style="--d: 0.5s">
-        <div class="stat-top">
-          <span class="stat-icon">&lt;</span>
-          <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">ms</span></span>
+        <div class="stat-item anim" style="--d: 0.66s">
+          <div class="stat-top">
+            <span class="stat-icon">*</span>
+            <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">/7</span></span>
+          </div>
+          <span class="stat-label">Autonomous Runtime</span>
         </div>
-        <span class="stat-label">Inference Time</span>
-      </div>
 
-      <div class="stat-item anim" style="--d: 0.58s">
-        <div class="stat-top">
-          <span class="stat-icon">%</span>
-          <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">%</span></span>
+        <div class="stat-item anim" style="--d: 0.74s">
+          <div class="stat-top">
+            <span class="stat-icon">#</span>
+            <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">M</span></span>
+          </div>
+          <span class="stat-label">Context Windows</span>
         </div>
-        <span class="stat-label">Platform Uptime</span>
-      </div>
-
-      <div class="stat-item anim" style="--d: 0.66s">
-        <div class="stat-top">
-          <span class="stat-icon">*</span>
-          <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">/7</span></span>
-        </div>
-        <span class="stat-label">Autonomous Runtime</span>
-      </div>
-
-      <div class="stat-item anim" style="--d: 0.74s">
-        <div class="stat-top">
-          <span class="stat-icon">#</span>
-          <span class="stat-value"><span class="stat-val-num">0</span><span class="stat-suffix">M</span></span>
-        </div>
-        <span class="stat-label">Context Windows</span>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </div>
 
+  <!-- ====================================================================
+       2) COMBINED APPLICATION MODULES (MARKETPLACE, USER, ADMIN, MODALS)
+       ==================================================================== -->
+  <div id="marketplaceModuleView" class="module-view">
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-pill">
+            <span class="pulse-dot"></span>
+            Verified Talent & Escrow Protected Platform
+        </div>
+
+        <div class="hero-content">
+            <h1>
+                Find the <span class="gradient-text">Right Freelancer</span> for Your Next Project
+            </h1>
+
+            <p>
+                Connect with world-class engineers, designers, and creative experts.
+                Post projects seamlessly, collaborate securely, and achieve extraordinary results.
+            </p>
+
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" onclick="scrollToProjects()">
+                    Explore Projects
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+                <button class="btn btn-secondary btn-lg" onclick="scrollToPostProject()">
+                    Post a Project
+                </button>
+            </div>
+
+            <!-- Hero Quick Search Box -->
+            <div class="hero-search-wrapper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input 
+                    type="text" 
+                    id="heroSearchInput" 
+                    placeholder="Search by role, skill, or project title (e.g. React, UI/UX, Flutter)..."
+                    aria-label="Search projects">
+                <button class="btn btn-primary btn-sm" onclick="triggerHeroSearch()">
+                    Search
+                </button>
+            </div>
+
+            <!-- Quick Category Tags -->
+            <div class="hero-tags">
+                <span>Popular:</span>
+                <button class="hero-tag-btn" onclick="filterByTag('React')">React</button>
+                <button class="hero-tag-btn" onclick="filterByTag('UI/UX')">UI/UX Design</button>
+                <button class="hero-tag-btn" onclick="filterByTag('Mobile')">Mobile Apps</button>
+                <button class="hero-tag-btn" onclick="filterByTag('AI')">AI & ML</button>
+                <button class="hero-tag-btn" onclick="filterByTag('Full Stack')">Full Stack</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Metrics -->
+    <div class="metrics-section">
+        <div class="metrics-grid">
+            <div class="metric-item">
+                <span class="metric-number" data-target="15000">15,000+</span>
+                <span class="metric-label">Vetted Freelancers</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number" data-target="4800">4,800+</span>
+                <span class="metric-label">Completed Projects</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number" data-target="99">99.4%</span>
+                <span class="metric-label">Client Satisfaction</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-number" data-target="18">₹1.8 Cr+</span>
+                <span class="metric-label">Paid to Freelancers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Choose FreelanceHub -->
+    <section class="section">
+        <div class="section-header">
+            <span class="section-badge">Platform Advantages</span>
+            <h2>Why Choose FreelanceHub?</h2>
+            <p>We combine verified professional talent, transparent pricing, and bank-grade escrow protection.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                </div>
+                <h3>Vetted & Verified Talent</h3>
+                <p>Top 2% developers, designers, and consultants rigorously evaluated for technical ability, communication, and reliability.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3>Secure Escrow Payments</h3>
+                <p>Funds are held safely in escrow and only released when you inspect and approve milestones, guaranteeing zero risk.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-wrapper">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Fast Turnaround & Matching</h3>
+                <p>Receive tailored proposals within hours from freelancers equipped with the exact technology stack you require.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Projects Section -->
+    <section id="projects" class="section">
+        <div class="section-header">
+            <span class="section-badge">Open Opportunities</span>
+            <h2>Available Projects</h2>
+            <p>Browse high-paying jobs from verified clients and submit your proposal in one click.</p>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filter-bar">
+            <div class="filter-categories" id="categoryFilters">
+                <button class="category-pill active" data-category="All">All Projects</button>
+                <button class="category-pill" data-category="Web Development">Web Dev</button>
+                <button class="category-pill" data-category="UI/UX & Design">UI/UX & Design</button>
+                <button class="category-pill" data-category="Mobile Apps">Mobile Apps</button>
+                <button class="category-pill" data-category="AI & Data">AI & Data</button>
+            </div>
+
+            <div class="filter-controls-right">
+                <select id="budgetFilter" class="filter-select" aria-label="Filter by budget">
+                    <option value="all">All Budgets</option>
+                    <option value="under-10k">Under ₹10,000</option>
+                    <option value="10k-25k">₹10,000 – ₹25,000</option>
+                    <option value="above-25k">₹25,000+</option>
+                </select>
+
+                <select id="sortFilter" class="filter-select" aria-label="Sort projects">
+                    <option value="newest">Newest First</option>
+                    <option value="budget-high">Budget: High to Low</option>
+                    <option value="budget-low">Budget: Low to High</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Project Grid Container -->
+        <div id="project-list" class="project-grid">
+            <!-- Dynamically populated via FM.js -->
+        </div>
+    </section>
+
+    <!-- Top Freelancers Section -->
+    <section id="freelancers" class="section" style="background: var(--bg-surface); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-badge">World-Class Talent</span>
+            <h2>Top-Rated Freelancers</h2>
+            <p>Explore profiles of verified experts with proven track records and 5-star ratings.</p>
+        </div>
+
+        <!-- Freelancer Grid Container -->
+        <div id="freelancer-list" class="freelancer-grid">
+            <!-- Dynamically populated via FM.js -->
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+        <div class="section-header">
+            <span class="section-badge">Simple Workflow</span>
+            <h2>How FreelanceHub Works</h2>
+            <p>A streamlined four-step workflow built to get your project moving in hours.</p>
+        </div>
+
+        <div class="how-it-works-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <h3>Post Your Project</h3>
+                <p>Provide project specifications, timeline, required skill set, and budget to get instant visibility.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <h3>Review Proposals</h3>
+                <p>Compare proposals, examine verified freelancer portfolios, and conduct direct interviews.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <h3>Collaborate in Escrow</h3>
+                <p>Fund milestones safely. Funds stay protected until milestones are completed and verified by you.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">04</div>
+                <h3>Approve & Complete</h3>
+                <p>Review final deliverables, release funds securely, and leave a verified review.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post Project Section -->
+    <section id="post-project" class="section">
+        <div class="section-header">
+            <span class="section-badge">Client Portal</span>
+            <h2>Post Your Project</h2>
+            <p>Publish your job posting and receive proposals from qualified freelancers today.</p>
+        </div>
+
+        <div class="post-section-wrapper">
+            <!-- Left: Form -->
+            <form id="projectForm" class="post-form">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input 
+                        type="text" 
+                        id="projectTitle" 
+                        placeholder="e.g. Modern E-Commerce Platform with Next.js & Stripe" 
+                        required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectCategory">Category</label>
+                        <select id="projectCategory" required>
+                            <option value="Web Development">Web Development</option>
+                            <option value="UI/UX & Design">UI/UX & Design</option>
+                            <option value="Mobile Apps">Mobile Apps</option>
+                            <option value="AI & Data">AI & Data</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectBudget">Budget (INR ₹)</label>
+                        <input 
+                            type="number" 
+                            id="projectBudget" 
+                            placeholder="e.g. 25000" 
+                            min="1000" 
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectSkills">Required Skills (Comma separated)</label>
+                    <input 
+                        type="text" 
+                        id="projectSkills" 
+                        placeholder="e.g. React, TailwindCSS, Node.js" 
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Project Description & Requirements</label>
+                    <textarea 
+                        id="projectDescription" 
+                        placeholder="Provide details about the project goals, scope of work, and expectations..." 
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 10px;">
+                    Publish Project Now
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Right: Live Card Preview -->
+            <div class="preview-box">
+                <div>
+                    <div class="preview-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 14 14"></polyline>
+                        </svg>
+                        Live Card Preview
+                    </div>
+
+                    <div class="project-card" style="box-shadow: none; pointer-events: none;">
+                        <div class="card-top">
+                            <span class="card-category-badge" id="previewCategory">Web Development</span>
+                            <span style="font-size: 12px; color: var(--text-muted);">Just now</span>
+                        </div>
+                        <h3 id="previewTitle">Your Project Title Appears Here</h3>
+                        <p class="project-desc" id="previewDesc">
+                            Describe your requirements to preview how candidates will view your job posting on the marketplace.
+                        </p>
+                        <div class="skills-wrapper" id="previewSkills">
+                            <span class="skill-tag">HTML</span>
+                            <span class="skill-tag">CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="budget-info">
+                                <span class="budget-label">Fixed Budget</span>
+                                <span class="budget-val" id="previewBudgetText">₹25,000</span>
+                            </div>
+                            <span class="btn btn-primary btn-sm">Apply Now</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 16px; text-align: center;">
+                    ⚡ Your posting will be immediately visible to thousands of vetted specialists.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END OF PUBLIC MARKETPLACE MODULE VIEW -->
+
+    <!-- ====================================================================
+         USER MODULE VIEW (CLIENT & FREELANCER WORKSPACE)
+         ==================================================================== -->
+    <div id="userModuleView" class="module-view">
+        <div class="module-banner">
+            <div class="module-banner-inner">
+                <div class="module-title-group">
+                    <h1>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        User Workspace & Dashboard
+                    </h1>
+                    <p id="userBannerGreeting">Manage your posted projects, review applicant proposals, and track your active bids.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span class="status-pill status-active" id="userRoleBadge">Client Mode</span>
+                    <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace')">← Explore Marketplace</button>
+                    <button class="btn btn-primary btn-sm" onclick="userSwitchToPostProject()">+ Post New Project</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-container">
+            <!-- Quick Stats Summary (CSS Grid) -->
+            <div class="kpi-grid" id="userStatsGrid">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">My Posted Projects</span>
+                        <h2 class="kpi-value" id="statUserPostedProjects">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Proposals Received</span>
+                        <h2 class="kpi-value" id="statUserProposalsReceived">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-cyan">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">My Submitted Bids</span>
+                        <h2 class="kpi-value" id="statUserSubmittedBids">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Saved Bookmarks</span>
+                        <h2 class="kpi-value" id="statUserBookmarks">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation (Flexbox) -->
+            <div class="module-tabs">
+                <button class="module-tab active" id="userTabBtnProjects" onclick="switchUserTab('projects')">
+                    📋 My Projects <span class="tab-badge" id="userBadgeProjects">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnProposals" onclick="switchUserTab('proposals')">
+                    💼 My Submitted Bids <span class="tab-badge" id="userBadgeProposals">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnSaved" onclick="switchUserTab('saved')">
+                    🔖 Saved Projects <span class="tab-badge" id="userBadgeSaved">0</span>
+                </button>
+                <button class="module-tab" id="userTabBtnProfile" onclick="switchUserTab('profile')">
+                    ⚙️ Profile Settings
+                </button>
+            </div>
+
+            <!-- Tab 1: My Posted Projects (Client View) -->
+            <div id="userTabContentProjects" class="user-tab-pane">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Client Project Management</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Review your posted job listings, inspect incoming proposals, and award contracts.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="userSwitchToPostProject()">+ Post New Job</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Category</th>
+                                    <th>Budget (₹)</th>
+                                    <th>Moderation Status</th>
+                                    <th>Proposals</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userProjectsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: My Submitted Bids (Freelancer View) -->
+            <div id="userTabContentProposals" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Freelancer Proposal Tracker</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Track all project bids you have submitted, along with delivery timelines and client decisions.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace'); scrollToProjects();">Browse More Jobs</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Bid Amount</th>
+                                    <th>Timeline</th>
+                                    <th>Submission Date</th>
+                                    <th>Proposal Status</th>
+                                    <th>Escrow State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userProposalsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Saved Projects -->
+            <div id="userTabContentSaved" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Bookmarked Opportunities</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Quickly access projects you have bookmarked for later application.</p>
+                        </div>
+                    </div>
+                    <div id="userSavedProjectsGrid" class="project-grid">
+                        <!-- Populated dynamically via FM.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Profile Settings -->
+            <div id="userTabContentProfile" class="user-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="profile-edit-grid">
+                        <div class="profile-card-static">
+                            <img id="userProfileStaticAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=160&q=80" alt="Avatar" class="profile-avatar-lg">
+                            <h3 id="userProfileStaticName">User Profile</h3>
+                            <p id="userProfileStaticRole" style="color: var(--primary-light); font-weight: 600; font-size: 14px; margin-top: 4px;">Registered Member</p>
+                            <div style="margin-top: 14px; font-size: 13px; color: var(--text-muted);" id="userProfileStaticEmail">user@example.com</div>
+                        </div>
+
+                        <form id="userProfileForm" onsubmit="handleUserProfileUpdate(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editProfileName">Full Name</label>
+                                    <input type="text" id="editProfileName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editProfileTitle">Professional Title / Company</label>
+                                    <input type="text" id="editProfileTitle" placeholder="e.g. Senior Full Stack Engineer">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editProfileHourly">Hourly Rate (or Budget Preference)</label>
+                                    <input type="text" id="editProfileHourly" placeholder="e.g. ₹2,500/hr">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editProfileSkills">Skills / Tech Stack (Comma separated)</label>
+                                    <input type="text" id="editProfileSkills" placeholder="React, Node.js, Python, UI/UX">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 12px;">
+                                <label for="editProfileBio">Bio / Professional Summary</label>
+                                <textarea id="editProfileBio" rows="4" placeholder="Share your experience, services, and qualifications..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top: 18px;">
+                                Save Profile Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         ADMIN MODULE VIEW (CONTROL PANEL & GOVERNANCE)
+         ==================================================================== -->
+    <div id="adminModuleView" class="module-view">
+        <div class="module-banner" style="background: linear-gradient(180deg, rgba(244, 63, 94, 0.08) 0%, transparent 100%);">
+            <div class="module-banner-inner">
+                <div class="module-title-group">
+                    <h1>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        Administrator Control Center
+                    </h1>
+                    <p>Platform governance, project moderation, role-based user management, and escrow tracking.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span class="status-pill status-role-admin">🛡️ Super Admin Mode</span>
+                    <button class="btn btn-outline btn-sm" onclick="navigateToModule('marketplace')">← Public Marketplace</button>
+                    <button class="btn btn-secondary btn-sm" onclick="refreshAdminData()">↻ Refresh Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-container">
+            <!-- KPI Dashboard Summary Cards (CSS Grid) -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Registered Users</span>
+                        <h2 class="kpi-value" id="adminKpiUsers">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Total Projects</span>
+                        <h2 class="kpi-value" id="adminKpiProjects">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-cyan">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Pending Moderation</span>
+                        <h2 class="kpi-value" id="adminKpiPending" style="color: var(--accent-amber);">0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 14 14"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <span class="kpi-label">Escrow Volume</span>
+                        <h2 class="kpi-value" id="adminKpiEscrow" style="color: var(--accent-emerald);">₹0</h2>
+                    </div>
+                    <div class="kpi-icon-wrap kpi-icon-emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation (Flexbox) -->
+            <div class="module-tabs">
+                <button class="module-tab active" id="adminTabBtnProjects" onclick="switchAdminTab('projects')">
+                    ⚖️ Project Moderation <span class="tab-badge" id="adminBadgeProjects">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnUsers" onclick="switchAdminTab('users')">
+                    👥 User Directory & RBAC <span class="tab-badge" id="adminBadgeUsers">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnProposals" onclick="switchAdminTab('proposals')">
+                    📑 Proposals & Escrow Oversight <span class="tab-badge" id="adminBadgeProposals">0</span>
+                </button>
+                <button class="module-tab" id="adminTabBtnLogs" onclick="switchAdminTab('logs')">
+                    📜 System Audit Logs
+                </button>
+            </div>
+
+            <!-- Tab 1: Project Moderation & Approval -->
+            <div id="adminTabContentProjects" class="admin-tab-pane">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Project Approval & Governance</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Approve or reject newly submitted client projects before they appear on the public marketplace.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <select id="adminProjectStatusFilter" class="filter-select" onchange="renderAdminProjectsTable()">
+                                <option value="all">All Moderation States</option>
+                                <option value="pending">Pending Approval</option>
+                                <option value="approved">Approved / Live</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Client / Employer</th>
+                                    <th>Category</th>
+                                    <th>Budget</th>
+                                    <th>Status</th>
+                                    <th>Governance Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProjectsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: User Directory & Access Control -->
+            <div id="adminTabContentUsers" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>User Management & Role-Based Access (RBAC)</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Manage registered accounts stored in LocalStorage, toggle account suspension, and manage roles.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="openCreateUserModal()">+ Add New User</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Assigned Role</th>
+                                    <th>Account Status</th>
+                                    <th>Joined Date</th>
+                                    <th>Administrative Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminUsersTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Proposals & Escrow Oversight -->
+            <div id="adminTabContentProposals" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Platform Proposals & Escrow Tracking</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Monitor all bids submitted across projects, verified milestone escrows, and platform fees.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Freelancer Applicant</th>
+                                    <th>Bid Amount</th>
+                                    <th>Timeline</th>
+                                    <th>Proposal Status</th>
+                                    <th>Escrow State</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProposalsTableBody">
+                                <!-- Populated dynamically via FM.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: System Audit Logs -->
+            <div id="adminTabContentLogs" class="admin-tab-pane" style="display: none;">
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <div>
+                            <h3>Real-Time System Audit Log</h3>
+                            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Chronological trail of administrative actions, moderation decisions, and user events.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="clearAuditLogs()">Clear Log History</button>
+                    </div>
+                    <div id="adminAuditLogsList" class="audit-list">
+                        <!-- Populated dynamically via FM.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="logo" style="margin-bottom: 14px;">
+                    <div class="logo-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                    Freelance<span>Hub</span>
+                </div>
+                <p>The trusted global platform for hiring high-caliber freelance engineers, designers, and creative professionals.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#projects" onclick="filterByTag('React')">Web Development</a></li>
+                    <li><a href="#projects" onclick="filterByTag('UI/UX')">UI/UX & Design</a></li>
+                    <li><a href="#projects" onclick="filterByTag('Mobile')">Mobile Applications</a></li>
+                    <li><a href="#projects" onclick="filterByTag('AI')">AI & Machine Learning</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#home">About Us</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#freelancers">Top Freelancers</a></li>
+                    <li><a href="#post-project">Post a Job</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Stay Updated</h4>
+                <p style="font-size: 13.5px;">Subscribe to our newsletter for curated job alerts and tech trends.</p>
+                <form class="newsletter-box" onsubmit="event.preventDefault(); showToast('Thank you for subscribing!', 'success'); this.reset();">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary btn-sm">Join</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 FreelanceHub. All rights reserved. Built with modern web standards.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#home">Privacy Policy</a>
+                <a href="#home">Terms of Service</a>
+                <a href="#home">Security</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Native Dialog Modals -->
+
+    <!-- 1. Apply for Project Modal -->
+    <dialog id="applyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalProjectTitle">Apply for Project</h3>
+                    <p id="modalProjectBudget" style="color: var(--accent-emerald); font-weight: 700; font-size: 14.5px; margin-top: 4px;"></p>
+                </div>
+                <button class="modal-close-btn" onclick="closeApplyModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <form id="applyForm" onsubmit="submitApplication(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bidAmount">Your Bid Amount (₹)</label>
+                        <input type="number" id="bidAmount" placeholder="e.g. 15000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryDays">Delivery Timeline</label>
+                        <select id="deliveryDays" required>
+                            <option value="3 Days">3 Days</option>
+                            <option value="7 Days" selected>7 Days</option>
+                            <option value="14 Days">14 Days</option>
+                            <option value="30 Days">30 Days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 12px;">
+                    <label for="coverLetter">Cover Letter / Why are you a good fit?</label>
+                    <textarea id="coverLetter" placeholder="Explain your relevant experience and how you will execute this project..." rows="4" required></textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 12px;">
+                    <label for="portfolioLink">Portfolio / GitHub Link (Optional)</label>
+                    <input type="url" id="portfolioLink" placeholder="https://github.com/yourhandle">
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeApplyModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Proposal</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- 2. Freelancer Profile Modal -->
+    <dialog id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Freelancer Profile</h3>
+                <button class="modal-close-btn" onclick="closeProfileModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div class="profile-modal-body" id="profileModalContent">
+                <!-- Dynamically populated via FM.js -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 3. Auth Modal (Sign In / Register) -->
+    <dialog id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Welcome to FreelanceHub</h3>
+                <button class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabSignIn" onclick="switchAuthTab('signin')">Sign In</button>
+                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div class="form-group" id="nameGroup" style="display: none; margin-bottom: 14px;">
+                    <label for="authName">Full Name</label>
+                    <input type="text" id="authName" placeholder="e.g. Johnathan Doe">
+                </div>
+
+                <div class="form-group" id="roleGroup" style="display: none; margin-bottom: 14px;">
+                    <label for="authRole">Account Type / Role</label>
+                    <select id="authRole">
+                        <option value="Client" selected>Client / Employer (Post jobs & hire talent)</option>
+                        <option value="Freelancer">Freelancer (Browse projects & submit proposals)</option>
+                        <option value="Admin">Administrator (Manage & govern platform)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="authEmail">Username or Email Address</label>
+                    <input type="text" id="authEmail" placeholder="e.g. prudhvi or client@freelancehub.com" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px;" id="authSubmitBtn">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- One-Click Demo Sign-In for Reviewers / Evaluators -->
+            <div class="demo-login-box">
+                <span class="demo-login-label">Quick Demo Access (One-Click Sign In):</span>
+                <div class="demo-btns">
+                    <button type="button" class="demo-btn" onclick="demoLogin('admin')" title="Sign in as Admin: prudhvi / prudhvi@2408">
+                        🛡️ Demo Admin (prudhvi)
+                    </button>
+                    <button type="button" class="demo-btn" onclick="demoLogin('client')">
+                        🏢 Demo Client
+                    </button>
+                    <button type="button" class="demo-btn" onclick="demoLogin('freelancer')">
+                        💻 Demo Freelancer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 4. Client Proposals Inspector Dialog -->
+    <dialog id="clientProposalsModal">
+        <div class="modal-content" style="max-width: 680px;">
+            <div class="modal-header">
+                <div>
+                    <h3 id="clientProposalsModalTitle">Project Proposals</h3>
+                    <p id="clientProposalsModalSubtitle" style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;"></p>
+                </div>
+                <button class="modal-close-btn" onclick="closeClientProposalsModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div id="clientProposalsList" style="display: flex; flex-direction: column; gap: 14px; max-height: 480px; overflow-y: auto; padding-right: 4px;">
+                <!-- Populated dynamically via FM.js -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- 5. Admin Create User Dialog -->
+    <dialog id="adminCreateUserModal">
+        <div class="modal-content" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3>Create New User Account</h3>
+                <button class="modal-close-btn" onclick="closeCreateUserModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <form id="adminCreateUserForm" onsubmit="handleAdminCreateUser(event)">
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserName">Full Name</label>
+                    <input type="text" id="newUserName" placeholder="e.g. Maya Lin" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserEmail">Email Address</label>
+                    <input type="email" id="newUserEmail" placeholder="maya@example.com" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="newUserPassword">Initial Password</label>
+                    <input type="password" id="newUserPassword" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="newUserRole">Role Assignment</label>
+                    <select id="newUserRole">
+                        <option value="Freelancer">Freelancer</option>
+                        <option value="Client">Client</option>
+                        <option value="Admin">Administrator</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <!-- Main Logic Script -->
+
+  <!-- Single Combined Vanilla JavaScript -->
   <script src="main.js"></script>
 </body>
 </html>
