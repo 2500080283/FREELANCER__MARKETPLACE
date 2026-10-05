@@ -244,10 +244,15 @@ Use this step-by-step walkthrough to present the project during practical exams 
 
 ```
 FREELANCER MARKET/
-├── FM.html      # Semantic HTML5 structure for Marketplace, User Module, Admin Module, & Dialog Modals
-├── FM.css       # Complete Vanilla CSS design system, Glassmorphism, CSS Grid, & Flexbox layouts
-├── FM.js        # Core JavaScript application engine, LocalStorage Auth, Redirection, & Module controllers
-└── README.md    # Exhaustive technical documentation & Viva review demonstration guide
+├── index.html                   # Single combined semantic HTML5 entrypoint (Landing Page, Marketplace, User Portal, Admin Panel, Modals)
+├── styles.css                   # Single combined CSS design system (Full-bleed video background, typography, glassmorphism, responsive grid)
+├── main.js                      # Single combined Vanilla JavaScript engine (Stats count-up, RBAC auth, module navigation, live persistence)
+├── assets/
+│   └── logo.webp                # Circular brand mark asset
+├── fonts/
+│   └── GeistPixel-Circle.woff2  # Retro dot-matrix pixel font fallback
+├── vercel.json                  # Clean URL & deployment configuration
+└── README.md                    # Technical documentation & Viva review demonstration guide
 ```
 
 ---
@@ -255,11 +260,11 @@ FREELANCER MARKET/
 ## 🚀 9. GitHub Repository & Deployment
 
 ### Run Locally:
-Simply open `FM.html` in any web browser, or serve it with Python:
+Simply open `index.html` in any web browser, or serve it with Python:
 ```bash
-python -m http.server 8000
+python -m http.server 8080
 ```
-Navigate to: `http://localhost:8000/FM.html`
+Navigate to: `http://localhost:8080/index.html`
 
 ### GitHub Repository:
 The complete source code is committed and pushed to the official repository:
