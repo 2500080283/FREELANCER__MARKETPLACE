@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -11,7 +11,7 @@ export function UserModule({
   onToggleBookmark,
   onNavigateMarketplace
 }) {
-  const { currentUser, updateProfile } = useAuth();
+  const { currentUser, updateProfile, openAuthModal, demoLogin } = useAuth();
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState(
@@ -27,7 +27,62 @@ export function UserModule({
   );
   const [profileBio, setProfileBio] = useState(currentUser?.bio || '');
 
-  if (!currentUser) return null;
+  useEffect(() => {
+    if (currentUser) {
+      setProfileName(currentUser.name || '');
+      setProfileTitle(currentUser.title || '');
+      setProfileHourly(currentUser.hourlyRate || '');
+      setProfileSkills(currentUser.skills ? currentUser.skills.join(', ') : '');
+      setProfileBio(currentUser.bio || '');
+      setActiveTab(currentUser.role === 'Client' ? 'projects' : 'proposals');
+    }
+  }, [currentUser]);
+
+  if (!currentUser) {
+    return (
+      <div className="module-view active" style={{ padding: '80px 20px', textAlign: 'center' }}>
+        <div style={{
+          maxWidth: '540px',
+          margin: '0 auto',
+          background: 'var(--bg-surface-elevated)',
+          padding: '40px',
+          borderRadius: '16px',
+          border: '1px solid var(--border-highlight)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+        }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>👤</div>
+          <h2 style={{ fontSize: '22px', color: 'var(--text-primary)', fontWeight: 700 }}>
+            Sign In to Access Your User Workspace
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '10px', fontSize: '14px', lineHeight: 1.6 }}>
+            Track your posted projects, manage proposals, award contracts with escrow, or view submitted freelancer bids.
+          </p>
+
+          <div style={{ marginTop: '24px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              className="btn btn-primary"
+              onClick={() => demoLogin('client')}
+            >
+              🏢 1-Click Demo Client
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => demoLogin('freelancer')}
+              style={{ background: 'var(--accent-emerald)', borderColor: 'var(--accent-emerald)' }}
+            >
+              💻 1-Click Demo Freelancer
+            </button>
+            <button className="btn btn-secondary" onClick={() => openAuthModal('signin')}>
+              Sign In / Register
+            </button>
+            <button className="btn btn-outline" onClick={onNavigateMarketplace}>
+              Return to Marketplace
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Filter projects owned by this client
   const myProjects = projects.filter(
@@ -246,10 +301,14 @@ export function UserModule({
                                 borderRadius: '12px',
                                 fontSize: '12px',
                                 fontWeight: 700,
-                                background: proj.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                                color: proj.status === 'approved' ? 'var(--accent-emerald)' : 'var(--accent-amber)'
+                                background: proj.status === 'in_progress'
+                                  ? 'rgba(6, 182, 212, 0.15)'
+                                  : (proj.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)'),
+                                color: proj.status === 'in_progress'
+                                  ? 'var(--secondary)'
+                                  : (proj.status === 'approved' ? 'var(--accent-emerald)' : 'var(--accent-amber)')
                               }}>
-                                {proj.status === 'approved' ? 'Approved & Live' : proj.status}
+                                {proj.status === 'in_progress' ? '⚡ In Progress' : (proj.status === 'approved' ? 'Approved & Live' : proj.status)}
                               </span>
                             </td>
                             <td>

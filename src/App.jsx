@@ -202,6 +202,16 @@ export function App() {
     const updated = projects.filter(p => p.id !== projectId);
     setProjects(updated);
     saveStoredProjects(updated);
+
+    // Clean up associated applications and bookmarks
+    const updatedApps = applications.filter(a => a.projectId !== projectId);
+    setApplications(updatedApps);
+    saveStoredApplications(updatedApps);
+
+    const updatedBookmarks = bookmarks.filter(id => id !== projectId);
+    setBookmarks(updatedBookmarks);
+    saveStoredBookmarks(updatedBookmarks);
+
     const logs = addAuditLog(`Admin deleted project: "${target?.title || projectId}".`);
     setAuditLogs(logs);
     showToast('Project deleted successfully.', 'success');
@@ -240,6 +250,10 @@ export function App() {
   // Admin: Delete user
   const handleDeleteUser = (userId) => {
     const target = users.find(u => u.id === userId);
+    if (target?.username === 'prudhvi') {
+      showToast('Cannot delete the primary platform Super Administrator account.', 'error');
+      return;
+    }
     const updated = users.filter(u => u.id !== userId);
     setUsers(updated);
     saveStoredUsers(updated);
@@ -266,6 +280,16 @@ export function App() {
 
   return (
     <div className={`app-container ${activeModule === 'landing' ? 'view-landing' : ''}`}>
+      {/* Exact Full-Viewport Cover Video Behind All UI / All Interfaces */}
+      <div className="bg">
+        <video className="bg-video" autoPlay muted loop playsInline>
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+
       {/* Global Navigation Bar */}
       <Navbar
         activeModule={activeModule}

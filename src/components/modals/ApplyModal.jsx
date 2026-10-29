@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -10,6 +10,12 @@ export function ApplyModal({ project, isOpen, onClose, onSubmitProposal }) {
   const [deliveryDays, setDeliveryDays] = useState('7 Days');
   const [coverLetter, setCoverLetter] = useState('');
   const [portfolioLink, setPortfolioLink] = useState('');
+
+  useEffect(() => {
+    if (project) {
+      setBidAmount(project.budget || '');
+    }
+  }, [project]);
 
   if (!isOpen || !project) return null;
 

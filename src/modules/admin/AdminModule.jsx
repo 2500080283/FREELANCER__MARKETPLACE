@@ -17,7 +17,7 @@ export function AdminModule({
   onClearAuditLogs,
   onNavigateMarketplace
 }) {
-  const { currentUser } = useAuth();
+  const { currentUser, openAuthModal, demoLogin } = useAuth();
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState('projects');
@@ -28,21 +28,45 @@ export function AdminModule({
     return (
       <div className="module-view active" style={{ padding: '80px 20px', textAlign: 'center' }}>
         <div style={{
-          maxWidth: '500px',
+          maxWidth: '540px',
           margin: '0 auto',
           background: 'var(--bg-surface-elevated)',
           padding: '40px',
           borderRadius: '16px',
-          border: '1px solid var(--accent-rose)'
+          border: '1px solid var(--accent-rose)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
         }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🛡️</div>
           <h2 style={{ fontSize: '22px', color: 'var(--accent-rose)', fontWeight: 700 }}>
             Restricted Access: Administrator Privileges Required
           </h2>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '10px', fontSize: '14px' }}>
-            You must be authenticated with an <strong>Admin</strong> account to access the Control Center.
+          <p style={{ color: 'var(--text-secondary)', marginTop: '10px', fontSize: '14px', lineHeight: 1.6 }}>
+            The Administrator Control Center is restricted to users with the <strong>Admin</strong> role.
+            Sign in with an administrator account or use the 1-click demo access below.
           </p>
-          <div style={{ marginTop: '24px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
+
+          <div style={{
+            marginTop: '20px',
+            padding: '12px',
+            background: 'rgba(255,255,255,0.03)',
+            borderRadius: '8px',
+            fontSize: '13px',
+            color: 'var(--text-muted)'
+          }}>
+            Default Admin Credentials: <code style={{ color: 'var(--accent-emerald)' }}>prudhvi</code> / <code style={{ color: 'var(--accent-emerald)' }}>prudhvi@2408</code>
+          </div>
+
+          <div style={{ marginTop: '24px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              className="btn btn-primary"
+              onClick={() => demoLogin('admin')}
+              style={{ background: 'var(--accent-rose)', borderColor: 'var(--accent-rose)' }}
+            >
+              🛡️ 1-Click Demo Admin Access
+            </button>
+            <button className="btn btn-secondary" onClick={() => openAuthModal('signin')}>
+              Sign In
+            </button>
             <button className="btn btn-outline" onClick={onNavigateMarketplace}>
               Return to Marketplace
             </button>
@@ -203,6 +227,7 @@ export function AdminModule({
                     <option value="all">All Moderation States</option>
                     <option value="pending">Pending Approval</option>
                     <option value="approved">Approved / Live</option>
+                    <option value="in_progress">In Progress</option>
                     <option value="rejected">Rejected</option>
                   </select>
                 </div>
@@ -257,14 +282,14 @@ export function AdminModule({
                               borderRadius: '12px',
                               fontSize: '12px',
                               fontWeight: 700,
-                              background: proj.status === 'approved'
+                              background: (proj.status === 'approved' || proj.status === 'in_progress')
                                 ? 'rgba(16, 185, 129, 0.15)'
                                 : (proj.status === 'rejected' ? 'rgba(244, 63, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)'),
-                              color: proj.status === 'approved'
+                              color: (proj.status === 'approved' || proj.status === 'in_progress')
                                 ? 'var(--accent-emerald)'
                                 : (proj.status === 'rejected' ? 'var(--accent-rose)' : 'var(--accent-amber)')
                             }}>
-                              {proj.status.toUpperCase()}
+                              {(proj.status || 'approved').toUpperCase()}
                             </span>
                           </td>
                           <td>

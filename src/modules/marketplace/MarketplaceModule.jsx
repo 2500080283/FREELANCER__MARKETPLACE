@@ -19,7 +19,7 @@ export function MarketplaceModule({
   // Filter & Sort computation
   const filteredProjects = useMemo(() => {
     return projects
-      .filter(p => p.status === 'approved')
+      .filter(p => p.status === 'approved' || p.status === 'in_progress' || !p.status)
       .filter(p => {
         // Category filter
         if (selectedCategory !== 'All' && p.category !== selectedCategory) {

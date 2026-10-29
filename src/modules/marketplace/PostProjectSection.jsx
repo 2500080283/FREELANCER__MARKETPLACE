@@ -180,7 +180,7 @@ export function PostProjectSection({ onProjectCreated }) {
                 <div className="budget-info">
                   <span className="budget-label">Fixed Budget</span>
                   <span className="budget-val">
-                    ₹{budget ? Number(budget).toLocaleString() : '25,000'}
+                    ₹{budget && !isNaN(Number(budget)) ? Number(budget).toLocaleString() : '25,000'}
                   </span>
                 </div>
                 <span className="btn btn-primary btn-sm">Apply Now</span>
