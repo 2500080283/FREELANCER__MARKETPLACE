@@ -1282,6 +1282,7 @@ header {
     max-width: 720px;
     margin: 0 auto;
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1360,6 +1361,7 @@ header {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1451,6 +1453,7 @@ header {
 
 .feature-card {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1505,6 +1508,7 @@ header {
    -------------------------------------------------------------------------- */
 .filter-bar {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1577,6 +1581,7 @@ header {
 
 .project-card {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1735,6 +1740,7 @@ header {
 
 .freelancer-card {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1850,6 +1856,7 @@ header {
 
 .step-card {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -1885,6 +1892,7 @@ header {
    -------------------------------------------------------------------------- */
 .post-section-wrapper {
     background: var(--bg-card);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -2369,6 +2377,7 @@ footer {
     align-items: flex-start;
     justify-content: space-between;
     transition: transform var(--transition-fast), border-color var(--transition-fast);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
 }
 .kpi-card:hover {
@@ -2411,6 +2420,7 @@ footer {
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     padding: 24px;
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     margin-bottom: 28px;
 }
