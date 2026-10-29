@@ -92,6 +92,13 @@ html {
   scroll-padding-top: 80px;
 }
 
+#root, .app-container {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
@@ -135,6 +142,29 @@ body:not(.view-landing) {
   object-fit: cover;
   pointer-events: none;
   z-index: 0;
+  opacity: 0.65;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.12) 0%, rgba(9, 13, 22, 0.45) 60%, rgba(9, 13, 22, 0.88) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-theme="light"] .bg {
+  background: #f1f5f9;
+}
+
+[data-theme="light"] .bg-video {
+  opacity: 0.28;
+  filter: contrast(0.9) brightness(1.2);
+}
+
+[data-theme="light"] .bg::after {
+  background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.06) 0%, rgba(248, 250, 252, 0.65) 60%, rgba(248, 250, 252, 0.94) 100%);
 }
 
 /* Module View Switcher */
@@ -180,11 +210,11 @@ body:not(.view-landing) {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - clamp(28px, 6vw, 64px));
-  max-width: 720px;
+  max-width: 860px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(18px, 2.8vw, 28px);
+  gap: clamp(10px, 1.8vw, 20px);
   flex-shrink: 0;
   z-index: 100;
   animation: slideDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -215,11 +245,12 @@ body:not(.view-landing) {
   border: none;
   outline: none;
   cursor: pointer;
+  padding: 0;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .brand-logo:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .brand-logo img {
@@ -233,7 +264,7 @@ body:not(.view-landing) {
 .nav-pill {
   background: #ffffff;
   height: clamp(44px, 5.2vw, 48px);
-  max-width: 430px;
+  max-width: 480px;
   flex: 1;
   padding: 4px 8px;
   border-radius: 999px;
@@ -247,26 +278,32 @@ body:not(.view-landing) {
 .nav-link {
   font-family: var(--font-sans);
   font-weight: 500;
-  font-size: clamp(13px, 1.4vw, 15px);
+  font-size: clamp(13px, 1.35vw, 15px);
   letter-spacing: -0.01em;
   color: var(--nav-text);
-  opacity: 0.5;
+  opacity: 0.55;
   text-decoration: none;
   position: relative;
-  padding: 8px 12px;
+  padding: 8px 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  background: transparent;
+  border: none;
+  outline: none;
   cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .nav-link:hover {
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .nav-link.active {
   opacity: 1;
+  font-weight: 600;
+  color: #000000;
 }
 
 .nav-link.active::after {
@@ -280,6 +317,95 @@ body:not(.view-landing) {
   border-radius: 50%;
   background: #000000;
   box-shadow: -5px 0 0 #000000, 5px 0 0 #000000;
+}
+
+/* Desktop Action Items */
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.theme-toggle-btn {
+  background: var(--pill-dark);
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  width: clamp(40px, 4.4vw, 46px);
+  height: clamp(40px, 4.4vw, 46px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--nav-shadow);
+  font-size: 17px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: scale(1.06);
+  background: #3a3a3c;
+}
+
+/* User Profile Nav Pill */
+.user-profile-pill {
+  background: var(--pill-dark);
+  color: var(--sign-in-text);
+  height: clamp(44px, 5.2vw, 48px);
+  padding: 4px 14px 4px 6px;
+  border-radius: 999px;
+  box-shadow: var(--nav-shadow);
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.user-profile-pill:hover {
+  background: #323234;
+  color: #ffffff;
+}
+
+.user-profile-pill img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-profile-pill .user-name {
+  max-width: 105px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-dropdown-container {
+  position: relative;
+}
+
+.user-nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: var(--bg-surface-elevated);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  animation: menuIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Sign In (Dark Pill) */
@@ -299,6 +425,7 @@ body:not(.view-landing) {
   justify-content: center;
   flex-shrink: 0;
   border: none;
+  outline: none;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -651,6 +778,10 @@ body:not(.view-landing) {
 }
 
 .mobile-nav-link {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 16px;
@@ -728,8 +859,9 @@ body:not(.view-landing) {
   }
 
   .desktop-nav,
-  .desktop-signin {
-    display: none;
+  .desktop-signin,
+  .desktop-actions {
+    display: none !important;
   }
 
   .burger-btn {
@@ -940,32 +1072,11 @@ html {
     scroll-padding-top: 80px;
 }
 
-/* Background Video Container */
-.bg {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000000;
-    overflow: hidden;
-    z-index: -1;
-    pointer-events: none;
-}
-
-.bg-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.45;
-    pointer-events: none;
-    z-index: -1;
-}
+/* Background video handled globally in root system */
 
 body {
     font-family: var(--font-body);
-    background-color: rgba(9, 13, 22, 0.72);
+    background-color: transparent;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
@@ -2282,7 +2393,7 @@ footer {
 
 /* Sub-page / Dashboard Header Banner */
 .module-banner {
-    padding: 40px 0 24px;
+    padding: 105px 0 28px;
     border-bottom: 1px solid var(--border-subtle);
     margin-bottom: 32px;
     background: linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);

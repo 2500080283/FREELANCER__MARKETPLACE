@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -7,9 +7,34 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
   const { showToast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close user dropdown when clicking outside or pressing Escape
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setUserDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+    if (userDropdownOpen || mobileMenuOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [userDropdownOpen, mobileMenuOpen]);
 
   const handleNavClick = (moduleName) => {
     setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
 
     if (moduleName === 'user') {
       if (!currentUser) {
@@ -34,6 +59,7 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
   const handleLogout = () => {
     logout();
     setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
     showToast('You have been successfully logged out.', 'info');
     setActiveModule('marketplace');
   };
@@ -41,17 +67,17 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
   return (
     <>
       <header className="header">
-        {/* Circular Logo Brand */}
+        {/* 1. Circular Brand Logo */}
         <button
           className="brand-logo"
           onClick={() => handleNavClick('landing')}
           aria-label="FreelanceHub Home"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          title="FreelanceHub Home"
         >
           <img src="/assets/logo.webp" alt="FreelanceHub Logo" width="52" height="52" />
         </button>
 
-        {/* Desktop Nav Pill */}
+        {/* 2. Desktop Nav Pill (White) */}
         <nav className="desktop-nav nav-pill" aria-label="Main Navigation">
           <button
             className={`nav-link ${activeModule === 'landing' ? 'active' : ''}`}
@@ -70,149 +96,112 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
             onClick={() => handleNavClick('user')}
           >
             User Portal
-            {currentUser && (
-              <span style={{
-                fontSize: '10px',
-                background: 'var(--primary)',
-                color: '#fff',
-                padding: '2px 6px',
-                borderRadius: '10px',
-                marginLeft: '5px'
-              }}>
-                {currentUser.role}
-              </span>
-            )}
           </button>
           <button
             className={`nav-link ${activeModule === 'admin' ? 'active' : ''}`}
             onClick={() => handleNavClick('admin')}
-            style={currentUser?.role === 'Admin' ? { borderColor: 'rgba(244, 63, 94, 0.4)' } : {}}
           >
-            🛡️ Admin Panel
+            Admin Panel
           </button>
         </nav>
 
-        {/* Actions Group: Theme Switcher & Auth */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* 3. Desktop Actions: Theme Switcher & Auth */}
+        <div className="desktop-actions">
           {/* Theme Switcher Button */}
           <button
             onClick={toggleTheme}
             className="theme-toggle-btn"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
             aria-label="Toggle Dark/Light Mode"
-            style={{
-              background: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              fontSize: '16px'
-            }}
           >
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
 
           {/* User Session or Sign In */}
           {currentUser ? (
-            <div style={{ position: 'relative' }}>
+            <div className="user-dropdown-container" ref={dropdownRef}>
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="user-nav-profile-btn"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: '30px',
-                  padding: '4px 12px 4px 6px',
-                  cursor: 'pointer',
-                  color: 'var(--text-primary)'
-                }}
+                className="user-profile-pill"
+                aria-expanded={userDropdownOpen}
+                aria-label="User Account Menu"
               >
                 <img
                   src={currentUser.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=160&q=80'}
                   alt={currentUser.name}
-                  style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
                 />
-                <span style={{ fontSize: '13.5px', fontWeight: 600, maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {currentUser.name}
-                </span>
-                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>▼</span>
+                <span className="user-name">{currentUser.name}</span>
+                <span style={{ fontSize: '10px', opacity: 0.7 }}>▼</span>
               </button>
 
               {userDropdownOpen && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '46px',
-                    right: 0,
-                    width: '210px',
-                    background: 'var(--bg-card-hover)',
-                    backdropFilter: 'blur(16px)',
-                    border: '1px solid var(--border-highlight)',
-                    borderRadius: '12px',
-                    padding: '8px',
-                    boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
-                    zIndex: 1000
-                  }}
-                >
-                  <div style={{ padding: '8px', borderBottom: '1px solid var(--border-subtle)', marginBottom: '6px' }}>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Signed in as</div>
-                    <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)' }}>{currentUser.name}</div>
-                    <div style={{ fontSize: '11px', color: 'var(--primary-light)', marginTop: '2px' }}>Role: {currentUser.role}</div>
+                <div className="user-nav-dropdown">
+                  <div style={{ padding: '10px 12px 8px', borderBottom: '1px solid var(--border-subtle)', marginBottom: '6px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Signed in as
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginTop: '2px' }}>
+                      {currentUser.name}
+                    </div>
+                    <div style={{
+                      display: 'inline-block',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: currentUser.role === 'Admin' ? 'var(--accent-rose)' : 'var(--primary-light)',
+                      background: currentUser.role === 'Admin' ? 'rgba(244, 63, 94, 0.12)' : 'var(--badge-bg)',
+                      padding: '2px 8px',
+                      borderRadius: '8px',
+                      marginTop: '6px'
+                    }}>
+                      {currentUser.role} Account
+                    </div>
                   </div>
 
                   <button
-                    onClick={() => {
-                      setUserDropdownOpen(false);
-                      handleNavClick('user');
-                    }}
+                    onClick={() => handleNavClick('user')}
                     style={{
                       width: '100%',
                       textAlign: 'left',
-                      padding: '8px 10px',
+                      padding: '9px 12px',
                       background: 'none',
                       border: 'none',
                       color: 'var(--text-primary)',
                       cursor: 'pointer',
-                      borderRadius: '6px',
+                      borderRadius: '8px',
                       fontSize: '13px',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px'
+                      gap: '8px',
+                      transition: 'background 0.15s ease'
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                   >
                     👤 Workspace Dashboard
                   </button>
 
                   {currentUser.role === 'Admin' && (
                     <button
-                      onClick={() => {
-                        setUserDropdownOpen(false);
-                        handleNavClick('admin');
-                      }}
+                      onClick={() => handleNavClick('admin')}
                       style={{
                         width: '100%',
                         textAlign: 'left',
-                        padding: '8px 10px',
+                        padding: '9px 12px',
                         background: 'none',
                         border: 'none',
                         color: 'var(--accent-rose)',
                         cursor: 'pointer',
-                        borderRadius: '6px',
+                        borderRadius: '8px',
                         fontSize: '13px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px'
+                        gap: '8px',
+                        transition: 'background 0.15s ease'
                       }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(244, 63, 94, 0.1)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                     >
-                      🛡️ Admin Control Panel
+                      🛡️ Admin Control Center
                     </button>
                   )}
 
@@ -221,19 +210,22 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
                     style={{
                       width: '100%',
                       textAlign: 'left',
-                      padding: '8px 10px',
+                      padding: '9px 12px',
                       background: 'none',
                       border: 'none',
                       color: '#f87171',
                       cursor: 'pointer',
-                      borderRadius: '6px',
+                      borderRadius: '8px',
                       fontSize: '13px',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
                       borderTop: '1px solid var(--border-subtle)',
-                      marginTop: '6px'
+                      marginTop: '4px',
+                      transition: 'background 0.15s ease'
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                   >
                     🚪 Sign Out
                   </button>
@@ -248,19 +240,19 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
               Sign in
             </button>
           )}
-
-          {/* Mobile Hamburger Button */}
-          <button
-            className="burger-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className="burger-bar"></span>
-            <span className="burger-bar"></span>
-            <span className="burger-bar"></span>
-          </button>
         </div>
+
+        {/* 4. Mobile Hamburger Button */}
+        <button
+          className="burger-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+        >
+          <span className="burger-bar"></span>
+          <span className="burger-bar"></span>
+          <span className="burger-bar"></span>
+        </button>
       </header>
 
       {/* Mobile Navigation Sheet */}
@@ -293,6 +285,15 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
               🛡️ Admin Panel
             </button>
 
+            {/* Mobile Theme Toggle */}
+            <button
+              className="mobile-nav-link"
+              onClick={toggleTheme}
+              style={{ justifyContent: 'center', gap: '8px', borderTop: '1px solid rgba(0,0,0,0.06)', marginTop: '4px' }}
+            >
+              {theme === 'dark' ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'}
+            </button>
+
             {currentUser ? (
               <button
                 className="btn-signin"
@@ -318,4 +319,4 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     </>
   );
 }
-
+export default Navbar;
