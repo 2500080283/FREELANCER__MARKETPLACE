@@ -139,3 +139,4 @@ export function ProfileModal({ freelancer, isOpen, onClose }) {
     </div>
   );
 }
+

@@ -196,3 +196,4 @@ export function PostProjectSection({ onProjectCreated }) {
     </section>
   );
 }
+

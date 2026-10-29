@@ -165,3 +165,4 @@ export function getStoredTheme() {
 export function saveStoredTheme(theme) {
   localStorage.setItem(STORAGE_KEYS.THEME, theme);
 }
+

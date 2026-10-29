@@ -228,3 +228,4 @@ export function ApplyModal({ project, isOpen, onClose, onSubmitProposal }) {
     </div>
   );
 }
+

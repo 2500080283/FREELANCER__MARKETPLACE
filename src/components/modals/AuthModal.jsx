@@ -455,3 +455,4 @@ export function AuthModal({ onLoginSuccess }) {
     </div>
   );
 }
+

@@ -318,3 +318,4 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     </>
   );
 }
+
