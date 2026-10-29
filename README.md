@@ -1,49 +1,40 @@
-# FreelanceHub — Freelancer Marketplace Platform 🚀
+# FreelanceHub — Freelancer Marketplace Platform (React + Vite) 🚀
 
-A comprehensive, responsive two-sided digital marketplace web application engineered **strictly using pure HTML5, Vanilla CSS3 (CSS Grid & Flexbox), and Vanilla JavaScript (ES6+)**. The platform operates completely on client-side state persistence using the browser's `localStorage` API, with zero external frameworks, libraries, or backend runtimes.
+A comprehensive, responsive two-sided digital marketplace web application engineered with **React, Vite, CSS Grid & Flexbox, and LocalStorage client-side persistence**. The platform features Role-Based Access Control (RBAC), multi-criteria project discovery, live card previews, milestone escrow allocation, and an executive administrator governance dashboard.
 
 ---
 
 ## 📌 Table of Contents
-1. [Problem Statement](#-1-problem-statement)
-2. [Business System & Required Modules](#-2-business-system--required-modules)
+1. [Core Requirements Compliance](#-core-requirements-compliance)
+2. [Module Identification & Functionalities](#-module-identification--functionalities)
    - [Public Marketplace Module](#1-public-marketplace-module)
    - [User Module (Client & Freelancer Workspaces)](#2-user-module)
    - [Admin Module (Governance & Control Panel)](#3-admin-module)
-3. [Technology Architecture & Implementation Standards](#-3-technology-architecture)
-4. [UI Template Architecture (CSS Grid & Flexbox)](#-4-ui-template-architecture-css-grid--flexbox)
-5. [Signup & Login Functionality Using Local Storage](#-5-signup--login-functionality-using-local-storage)
-6. [Module-Wise Navigation & JavaScript Redirection](#-6-module-wise-navigation--javascript-redirection)
-7. [Student Review & Viva Voce Demonstration Guide](#-7-student-review--viva-voce-demonstration-guide)
-8. [Project File Structure](#-8-project-file-structure)
-9. [GitHub Repository & Deployment](#-9-github-repository--deployment)
+   - [Landing Module (Hero & Metrics)](#4-landing-module)
+3. [Login & Signup Implementation (LocalStorage)](#-login--signup-implementation-local-storage)
+4. [Technology Architecture & State Management](#-technology-architecture--state-management)
+5. [Project File Structure](#-project-file-structure)
+6. [Getting Started & Local Execution](#-getting-started--local-execution)
+7. [Student Review & Viva Demonstration Walkthrough](#-student-review--viva-demonstration-walkthrough)
 
 ---
 
-## 🎯 1. Problem Statement
+## 🎯 Core Requirements Compliance
 
-In the modern digital gig economy, businesses and independent specialists experience significant friction when attempting to collaborate:
-1. **Inefficient Talent Discovery**: Clients and employers spend extensive hours sifting through unvetted candidate lists without transparent pricing, proven skills, or client ratings.
-2. **Delayed Proposals & High Friction**: Freelancers must navigate convoluted platforms with high listing fees, opaque bidding structures, and delayed communication channels.
-3. **Escrow & Project Security Risks**: Without an escrow framework, freelancers risk non-payment after project delivery, while clients risk paying upfront for incomplete or subpar deliverables.
-4. **Lack of Centralized Governance**: Platform administrators frequently lack clean, unified governance portals to moderate project listings, regulate user access, and oversee financial volume.
-
-### Proposed Solution:
-**FreelanceHub** solves these challenges by providing a unified, client-side web application providing:
-- **Clients**: Tools to publish detailed job listings with real-time card previews, receive proposals, inspect applicant portfolios, and allocate funds into protected escrow.
-- **Freelancers**: A categorized job board with multi-criteria filtering, 1-click proposal submission with custom bids and timelines, proposal tracking, and saved bookmarks.
-- **Administrators**: A full-featured Command Center with KPI analytics, project moderation (Approve, Reject, Delete, Feature), Role-Based Access Control (RBAC), and real-time audit logging.
+| Requirement | Implementation Details | Status |
+| :--- | :--- | :--- |
+| **1. React + Vite Project** | Configured with `vite`, `@vitejs/plugin-react`, `react@19`, and `lucide-react`. Fast HMR development and optimized production bundling (`npm run build`). | ✅ **Fully Implemented** |
+| **2. Module Identification** | Distinct architectural modules implemented: **Admin Module**, **User Module** (Client + Freelancer), **Marketplace Module**, and **Landing Module**. | ✅ **Fully Implemented** |
+| **3. Login & Signup with Local Storage** | Robust client-side authentication with validation, password checks, account suspension enforcement, persistent session management, and 1-click demo logins. | ✅ **Fully Implemented** |
 
 ---
 
-## 🏢 2. Business System & Required Modules
-
-The business system is structured into three primary architectural modules:
+## 🏢 Module Identification & Functionalities
 
 ```
                             ┌───────────────────────────────────────────────┐
                             │           FreelanceHub Web Platform           │
-                            │      (Single-Page Architecture in JS)         │
+                            │             (React + Vite SPA)                │
                             └──────────────────────┬────────────────────────┘
                                                    │
          ┌─────────────────────────────────────────┼────────────────────────────────────────┐
@@ -61,117 +52,65 @@ The business system is structured into three primary architectural modules:
   • Live Card Preview                      • Profile Settings Sync                 • System Audit Logs
 ```
 
-### 1. Public Marketplace Module
-- **Hero & Discovery**: Quick keyword search, popular tech tags, and real-time metric counters.
-- **Available Projects Board**: Real-time filtering by category (*Web Dev, UI/UX, Mobile Apps, AI & Data*), budget tiers (*Under ₹10k, ₹10k–₹25k, ₹25k+*), and price sorting.
-- **Vetted Freelancers Directory**: Top-rated talent profiles with ratings, hourly rates, verified badges, and interactive profile modals.
+### 1. Public Marketplace Module (`src/modules/marketplace/`)
+- **Hero & Search Engine**: Real-time keyword search across project titles, descriptions, and technology tags (React, UI/UX, Mobile, AI, Full Stack).
+- **Multi-Criteria Filter Engine**:
+  - Category tabs (*All, Web Dev, UI/UX & Design, Mobile Apps, AI & Data*).
+  - Budget tier dropdown (*All, Under ₹10,000, ₹10,000 – ₹25,000, ₹25,000+*).
+  - Sort ordering (*Newest, Budget: High to Low, Budget: Low to High*).
+- **Project Cards**: Displays client verification badges, category tags, required skills, listed budget, proposal counts, and bookmark star toggle.
+- **Vetted Freelancer Directory**: Verified profiles with ratings, reviews, hourly rates, and an interactive **Profile Inspection Modal**.
 - **Client Project Publisher**: Post job form with real-time **Live Card Preview** that updates instantaneously as the user types.
 
-### 2. User Module
+### 2. User Module (`src/modules/user/`)
 A unified workspace customized to the authenticated user's role:
 - **Client Workspace**:
-  - *My Posted Projects*: Tabular view of all posted projects with status badges (*Approved, Pending, In Progress, Rejected*).
-  - *Applicant Proposals Inspector*: View bids, delivery timelines, and cover letters submitted for each project.
-  - *One-Click Hire & Escrow Allocation*: Accepting a bid immediately sets the project to "In Progress" and marks funds as "Held in Escrow".
+  - *My Posted Projects*: Tabular view of all projects posted by the client with status badges (*Approved, Pending, In Progress, Rejected*).
+  - *Applicant Proposals Inspector*: Modal view of bids, delivery timelines, and cover letters submitted for each project.
+  - *One-Click Hire & Escrow Allocation*: Accepting a bid immediately sets the proposal to "Accepted", the project to "In Progress", and locks funds into "Held in Escrow".
 - **Freelancer Workspace**:
-  - *My Submitted Bids*: Comprehensive tracker of all bids submitted by the freelancer with delivery timelines and client decision status (*Pending, Accepted/Hired, Rejected*).
-  - *Saved Projects*: Dedicated grid of bookmarked opportunities with 1-click application.
+  - *My Submitted Bids*: Comprehensive tracker of all bids submitted by the freelancer with delivery timelines, client decisions (*Pending, Accepted/Hired*), and Escrow states.
+  - *Saved Projects*: Dedicated grid of bookmarked opportunities with 1-click application and bookmark management.
 - **Profile Settings**:
   - Edit personal details, professional title, hourly rate, skills, and bio with instant `localStorage` synchronization.
 
-### 3. Admin Module
+### 3. Admin Module (`src/modules/admin/`)
 A secured control panel accessible exclusively by users with the `Admin` role:
-- **Executive KPI Dashboard**:
+- **Route Guard Interceptor**: Blocks non-administrators with security alert toasts and redirects.
+- **4 Executive KPI Stat Cards**:
   - 👥 *Total Registered Users*
   - 💼 *Total Projects on Platform*
   - ⏳ *Pending Moderation Approvals*
   - 💰 *Total Platform Escrow & Transaction Volume (₹)*
 - **Project Moderation & Governance**:
   - Filter projects by moderation state (*All, Pending, Approved, Rejected*).
-  - Actions: Approve project (instantly publishes to marketplace), Reject/Take Down, Feature, or Delete.
+  - Actions: Approve project (instantly publishes to marketplace), Reject/Take Down, Feature toggle, or Delete.
 - **User Directory & RBAC Management**:
   - Table of all accounts stored in `localStorage`.
-  - Actions: Suspend/Reactivate account, Change user role (*Freelancer ⇄ Client ⇄ Admin*), Delete user account.
+  - Actions: Suspend / Reactivate account (suspended accounts cannot log in), Role Switcher dropdown (*Freelancer ⇄ Client ⇄ Admin*), Delete user account, and "+ Add New User" modal.
 - **Platform Proposals & Escrow Oversight**:
   - Full visibility into all proposals, bid amounts, and financial escrow allocations across the platform.
 - **Real-Time System Audit Log**:
-  - Chronological, timestamped activity stream tracking all key administrative and marketplace transactions.
+  - Chronological, timestamped activity stream tracking administrative and marketplace transactions.
 
 ---
 
-## 🛠️ 3. Technology Architecture
+## 🔐 Login & Signup Implementation (Local Storage)
 
-| Layer | Implementation | Strict Compliance Note |
-| :--- | :--- | :--- |
-| **Markup & Semantics** | HTML5, Native `<dialog>` elements, semantic tags (`<header>`, `<nav>`, `<section>`, `<article>`, `<footer>`) | **100% Pure HTML5** (No templating engines) |
-| **Styling & Design System** | Vanilla CSS3, CSS Custom Properties (Variables), Glassmorphism (`backdrop-filter`), Responsive CSS Grid & Flexbox | **100% Pure CSS3** (No Tailwind, No Bootstrap, No SASS) |
-| **Behavior & Architecture** | Vanilla JavaScript (ES6+), DOM Manipulation, Event Delegation, LocalStorage Database Engine | **100% Pure Vanilla JS** (No React, Vue, jQuery, or Node runtimes) |
-| **Persistence Layer** | Browser `localStorage` API | Data survives browser reloads and sessions |
+Authentication and session state are managed via the browser's `localStorage` API:
 
----
-
-## 🎨 4. UI Template Architecture (CSS Grid & Flexbox)
-
-The user interface is designed using modern CSS specifications:
-
-### CSS Grid Implementations:
-1. **Admin KPI Dashboard Grid**:
-   ```css
-   .kpi-grid {
-       display: grid;
-       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-       gap: 20px;
-   }
-   ```
-2. **Marketplace Project Grid**:
-   ```css
-   .project-grid {
-       display: grid;
-       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-       gap: 24px;
-   }
-   ```
-3. **Post Project & Live Preview Split**:
-   ```css
-   .post-section-wrapper {
-       display: grid;
-       grid-template-columns: 1.15fr 0.85fr;
-       gap: 36px;
-   }
-   ```
-4. **User Profile Settings Layout**:
-   ```css
-   .profile-edit-grid {
-       display: grid;
-       grid-template-columns: 280px 1fr;
-       gap: 24px;
-   }
-   ```
-
-### Flexbox Implementations:
-1. **Glassmorphic Navigation Bar**: `display: flex; justify-content: space-between; align-items: center;`
-2. **Module Sub-Navigation Tabs**: `display: flex; gap: 8px; overflow-x: auto;`
-3. **Filter Pills & Category Bars**: `display: flex; gap: 8px; flex-wrap: wrap;`
-4. **Status Badges & Action Toolbars**: `display: inline-flex; align-items: center; gap: 6px;`
-
----
-
-## 🔐 5. Signup & Login Functionality Using Local Storage
-
-User authentication and role-based permissions are managed via `localStorage`.
-
-### LocalStorage Schema Keys:
+### LocalStorage Schema:
 - `freelancehub_users_v3`: Array of registered user accounts.
 - `freelancehub_session_v3`: Active authenticated user object.
-- `freelancehub_projects_v3`: Moderated project list.
+- `freelancehub_projects_v3`: Platform projects list with moderation states.
 - `freelancehub_applications_v3`: Submitted proposals and escrow states.
-- `freelancehub_audit_logs_v3`: Timestamped system event logs.
 - `freelancehub_bookmarks_v3`: Array of bookmarked project IDs.
+- `freelancehub_audit_logs_v3`: Timestamped system event logs.
 - `freelancehub_theme_v2`: User's theme preference (`"dark"` or `"light"`).
 
 ### Pre-Configured Test Credentials:
 
-| Role | Username / Email | Password | Permissions |
+| Role | Username / Email | Password | Permissions & Workflow |
 | :--- | :--- | :--- | :--- |
 | **🛡️ Admin** | `prudhvi` *(or `prudhvi@freelancehub.com`)* | `prudhvi@2408` | Full access to Admin Command Center, User RBAC, and Project Moderation |
 | **🏢 Client** | `client@freelancehub.com` | `client123` | Post projects, view proposals, award contracts & allocate escrow |
@@ -181,95 +120,111 @@ User authentication and role-based permissions are managed via `localStorage`.
 
 ---
 
-## 🧭 6. Module-Wise Navigation & JavaScript Redirection
-
-The application implements a JavaScript Single Page Application (SPA) architecture:
-
-1. **Module Switcher Function**:
-   - `navigateToModule('marketplace' | 'user' | 'admin')` dynamically switches views by toggling `.module-view.active` classes.
-2. **Post-Login Redirection**:
-   - When an **Admin** logs in, the engine immediately calls `navigateToModule('admin')` to display the Administrator Command Center.
-   - When a **Client** or **Freelancer** logs in, the engine immediately calls `navigateToModule('user')` to display their workspace.
-   - When a user **logs out**, the engine calls `navigateToModule('marketplace')`.
-3. **Route Guard & Security Check**:
-   - If an unauthenticated user or regular user attempts to access the Admin Panel, the router intercepts the request, displays a security warning toast, opens the Auth modal, and prevents access.
-   - If a suspended user attempts to log in, the system alerts them that their account is blocked and prevents authentication.
-
----
-
-## 🎓 7. Student Review & Viva Voce Demonstration Guide
-
-Use this step-by-step walkthrough to present the project during practical exams and project evaluation:
-
-### Step 1: Explain the Problem Statement & Architecture (1 Minute)
-- Explain that **FreelanceHub** is a responsive digital freelancer marketplace developed exclusively using pure **HTML5, CSS3 (Grid & Flexbox), and Vanilla JavaScript (ES6+)**.
-- Highlight that the system runs client-side using `localStorage` for database persistence without external frameworks.
-
-### Step 2: Demonstrate the Public Marketplace & Dynamic UI (1 Minute)
-- Show the **Dark/Light Mode Switcher** (click the sun/moon icon in the navbar; observe instant theme change and persistence).
-- Demonstrate the **Multi-Criteria Filter Engine**:
-  - Click on "Web Dev", "Mobile Apps", or "AI & Data" category pills.
-  - Test the **Budget Tier Filter** (e.g., "₹25,000+").
-  - Test the **Keyword Search Bar** (e.g., search for "React" or "Flutter").
-- Scroll to the **Post a Project** section:
-  - Type a title and budget in the form; show the examiner how the **Live Card Preview** on the right updates in real-time.
-
-### Step 3: Demonstrate Authentication & User Registration via LocalStorage (2 Minutes)
-- Click the **Sign In** button in the navbar.
-- Open browser DevTools (`F12` -> `Application` tab -> `Local Storage`).
-- Show the examiner the stored keys (`freelancehub_users_v3`, `freelancehub_projects_v3`, etc.).
-- Demonstrate registration by creating a new user or use the **1-Click Quick Demo Sign-In** button.
-
-### Step 4: Demonstrate the User Module (Client & Freelancer Roles) (2 Minutes)
-- Click **Demo Client**:
-  - Show how JavaScript automatically redirects to the **User Portal** (`#userModuleView`).
-  - View the Client Project Management table.
-  - Click **View Proposals** on a project: show the examiner the bids submitted by freelancers.
-  - Click **Accept Proposal & Escrow Funds**: show how status updates to "Accepted" and the funds are placed into "Held in Escrow".
-- Click **Demo Freelancer**:
-  - Show the **Freelancer Proposal Tracker** with bid amounts, timelines, and live status.
-  - Show the **Saved Projects (Bookmarks)** tab.
-  - Show the **Profile Settings** tab and edit a field to demonstrate `localStorage` sync.
-
-### Step 5: Demonstrate the Admin Module & Governance (2 Minutes)
-- Click the **Admin Panel** link or use the **Demo Admin** button.
-- Show the **4 KPI Stat Cards** (Registered Users, Total Projects, Pending Moderation, Escrow Volume) calculating dynamically from `localStorage`.
-- Show **Project Moderation**: Click "Take Down / Reject" or "Approve" on a project; navigate back to Marketplace to prove that the public listing updated immediately!
-- Show **User Directory & RBAC**: Click "Suspend" on an account; demonstrate that the user cannot log in while suspended.
-- Show **System Audit Logs**: Point out the live chronological event log recording all user and admin actions.
-
----
-
-## 📂 8. Project File Structure
+## 📁 Project File Structure
 
 ```
 FREELANCER MARKET/
-├── index.html                   # Single combined semantic HTML5 entrypoint (Landing Page, Marketplace, User Portal, Admin Panel, Modals)
-├── styles.css                   # Single combined CSS design system (Full-bleed video background, typography, glassmorphism, responsive grid)
-├── main.js                      # Single combined Vanilla JavaScript engine (Stats count-up, RBAC auth, module navigation, live persistence)
-├── assets/
-│   └── logo.webp                # Circular brand mark asset
-├── fonts/
-│   └── GeistPixel-Circle.woff2  # Retro dot-matrix pixel font fallback
-├── vercel.json                  # Clean URL & deployment configuration
-└── README.md                    # Technical documentation & Viva review demonstration guide
+├── index.html                   # HTML entrypoint mounting React root
+├── vite.config.js               # Vite bundler configuration
+├── package.json                 # React 19, Vite, Lucide dependencies & scripts
+├── public/
+│   ├── assets/
+│   │   └── logo.webp            # Brand logo asset
+│   └── fonts/
+│       └── GeistPixel-Circle.woff2 # Pixel display font
+├── src/
+│   ├── main.jsx                 # Application entry point with AuthProvider & ToastProvider
+│   ├── App.jsx                  # Root state orchestration & Module routing
+│   ├── index.css                # Design system: Glassmorphism, CSS Grid, Flexbox, Dark/Light modes
+│   ├── context/
+│   │   ├── AuthContext.jsx      # LocalStorage user authentication, session state & RBAC
+│   │   └── ToastContext.jsx     # Ambient notification toasts (Success, Error, Info)
+│   ├── data/
+│   │   ├── initialData.js       # Seed users, projects, proposals, and audit logs
+│   │   └── storage.js           # LocalStorage CRUD operations & schema initialization
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Navbar.jsx       # Header with module switcher, role badge, theme toggle
+│   │   │   └── Footer.jsx       # Platform footer
+│   │   └── modals/
+│   │       ├── AuthModal.jsx    # Sign In & Sign Up with LocalStorage & 1-click demo logins
+│   │       ├── ApplyModal.jsx   # Bid submission modal
+│   │       ├── ProfileModal.jsx # Freelancer profile view modal
+│   │       ├── ClientProposalsModal.jsx # Client review proposals & Escrow allocation
+│   │       └── AdminUserModal.jsx # Admin create user modal
+│   └── modules/
+│       ├── landing/
+│       │   └── LandingModule.jsx # Full-bleed video background, trust row, stats count-up
+│       ├── marketplace/
+│       │   ├── MarketplaceModule.jsx # Hero search, multi-filters, project grid, talent directory
+│       │   └── PostProjectSection.jsx # Post job form with Real-time Live Card Preview
+│       ├── user/
+│       │   └── UserModule.jsx   # Client & Freelancer workspaces, bid tracker, bookmarks, profile
+│       └── admin/
+│           └── AdminModule.jsx  # Governance, 4 KPIs, moderation, RBAC directory, escrow, audit logs
 ```
 
 ---
 
-## 🚀 9. GitHub Repository & Deployment
+## 🚀 Getting Started & Local Execution
 
-### Run Locally:
-Simply open `index.html` in any web browser, or serve it with Python:
+### 1. Install Dependencies:
 ```bash
-python -m http.server 8080
+npm install
 ```
-Navigate to: `http://localhost:8080/index.html`
 
-### GitHub Repository:
-The complete source code is committed and pushed to the official repository:
-- **Repository URL**: `https://github.com/2500080283/FREELANCER__MARKETPLACE.git`
-- **Branch**: `main`
+### 2. Run the Development Server:
+```bash
+npm run dev
+```
+Open your browser and navigate to: `http://localhost:5173`
+
+### 3. Build for Production:
+```bash
+npm run build
+```
 
 ---
-*Created for Academic Project Evaluation & Review — Built strictly with pure Web Standards (HTML5, CSS3, JavaScript).*
+
+## 🎓 Student Review & Viva Demonstration Walkthrough
+
+Use this step-by-step walkthrough to present the project during practical exams and project evaluation:
+
+### Step 1: Explain the React + Vite Architecture (1 Minute)
+- Explain that **FreelanceHub** is engineered with **React** and **Vite** for fast HMR and modular component architecture.
+- Point out the clean folder structure: `src/modules/` (Admin, User, Marketplace, Landing), `src/context/` (Auth & Toast), and `src/data/` (LocalStorage engine).
+
+### Step 2: Demonstrate Authentication & LocalStorage (2 Minutes)
+- Click **Sign In** in the navigation bar.
+- Show the two tabs: **Sign In** and **Create Account**.
+- Open DevTools (`F12` -> `Application` tab -> `Local Storage`) and show the examiner the persistent keys:
+  - `freelancehub_users_v3`
+  - `freelancehub_session_v3`
+  - `freelancehub_projects_v3`
+- Click **🛡️ Demo Admin (prudhvi)**: observe automatic redirection to the **Admin Module**.
+
+### Step 3: Demonstrate the Admin Module (2 Minutes)
+- Show the **4 Dynamic KPI Cards** calculating directly from LocalStorage (Registered Users, Total Projects, Pending Moderation, Escrow Volume).
+- In the **Project Moderation** tab, click **Approve** or **Reject** on a project.
+- In the **User Directory & RBAC** tab, show how an admin can change a user's role or click **Suspend** to immediately lock an account out.
+- Show the **System Audit Log** tab recording all user and admin events chronologically.
+
+### Step 4: Demonstrate the User Module (Client & Freelancer Roles) (2 Minutes)
+- Click the profile dropdown and switch to **🏢 Demo Client**:
+  - Automatically redirected to the **User Portal** (`Client Mode`).
+  - Show the **Client Project Management** table.
+  - Click **View Proposals**: examine submitted bids and click **Accept Proposal & Escrow Funds**. Notice the status updates to "Accepted" and funds move to "Held in Escrow".
+- Switch to **💻 Demo Freelancer**:
+  - Show the **Freelancer Proposal Tracker** with bid amounts, timelines, and live status.
+  - Show the **Saved Projects (Bookmarks)** tab.
+  - Show the **Profile Settings** tab and edit a field to demonstrate instant LocalStorage synchronization.
+
+### Step 5: Demonstrate the Public Marketplace & Live Preview (1 Minute)
+- Click **Marketplace** in the navigation bar.
+- Test the **Multi-Criteria Filter Engine**:
+  - Click category pills (*Web Dev, Mobile Apps, AI & Data*).
+  - Test the **Budget Tier Filter** (e.g. "₹25,000+").
+  - Test the **Live Search Bar** (e.g. search for "React").
+- Scroll down to **Post Your Project**:
+  - Type a title and budget in the form; demonstrate to the examiner how the **Live Card Preview** on the right updates instantaneously as you type!
+- Click the **Theme Switcher** (sun/moon icon) in the header to demonstrate Dark and Light mode persistence.
