@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { PostProjectSection } from './PostProjectSection';
-import { INITIAL_FREELANCERS } from '../../data/initialData';
 
 export function MarketplaceModule({
   projects = [],
@@ -319,48 +318,6 @@ export function MarketplaceModule({
         </div>
       </section>
 
-      {/* Top Freelancers Section */}
-      <section id="freelancers" className="section" style={{ background: 'var(--bg-surface)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-subtle)' }}>
-        <div className="section-header">
-          <span className="section-badge">World-Class Talent</span>
-          <h2>Top-Rated Freelancers</h2>
-          <p>Explore profiles of verified experts with proven track records and 5-star ratings.</p>
-        </div>
-
-        <div id="freelancer-list" className="freelancer-grid">
-          {INITIAL_FREELANCERS.map(free => (
-            <div key={free.id} className="freelancer-card">
-              <div className="freelancer-header">
-                <img src={free.avatar} alt={free.name} className="freelancer-avatar" />
-                <div className="freelancer-info">
-                  <h3>{free.name}</h3>
-                  <span className="freelancer-title">{free.title}</span>
-                  <div className="freelancer-rating">
-                    <span>⭐ {free.rating}</span>
-                    <span style={{ color: 'var(--text-muted)' }}>({free.reviewsCount} reviews)</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="skills-wrapper" style={{ margin: '14px 0' }}>
-                {free.skills.slice(0, 4).map((sk, idx) => (
-                  <span key={idx} className="skill-tag">{sk}</span>
-                ))}
-              </div>
-
-              <div className="freelancer-footer">
-                <span className="freelancer-rate">{free.hourlyRate}</span>
-                <button
-                  className="btn btn-outline btn-sm"
-                  onClick={() => onOpenProfile(free)}
-                >
-                  View Profile
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* How It Works Section */}
       <section id="how-it-works" className="section">
