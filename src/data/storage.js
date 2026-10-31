@@ -17,8 +17,28 @@ export const STORAGE_KEYS = {
   APPLICATIONS: "freelancehub_applications_v3",
   BOOKMARKS: "freelancehub_bookmarks_v3",
   LOGS: "freelancehub_audit_logs_v3",
-  THEME: "freelancehub_theme_v2"
+  THEME: "freelancehub_theme_v2",
+  SETTINGS: "freelancehub_settings_v1",
+  CATEGORIES: "freelancehub_categories_v1"
 };
+
+export const DEFAULT_SETTINGS = {
+  platformFeePercent: 10, // 10% platform fee
+  autoApproveProjects: true, // Auto-approve or require admin approval
+  allowNewRegistrations: true, // User registration open
+  maintenanceMode: false, // Maintenance mode banner
+  escrowDisputeWindowDays: 14 // Dispute resolution window in days
+};
+
+export const DEFAULT_CATEGORIES = [
+  'Web Development',
+  'Mobile Apps',
+  'UI/UX Design',
+  'AI & Machine Learning',
+  'Cloud & DevOps',
+  'Data Science & Analytics',
+  'Cybersecurity'
+];
 
 // Safe JSON parser
 function safeParse(key, fallback) {
@@ -76,6 +96,14 @@ export function initLocalStorage() {
 
   if (!localStorage.getItem(STORAGE_KEYS.THEME)) {
     localStorage.setItem(STORAGE_KEYS.THEME, "dark");
+  }
+
+  if (!localStorage.getItem(STORAGE_KEYS.SETTINGS)) {
+    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
+  }
+
+  if (!localStorage.getItem(STORAGE_KEYS.CATEGORIES)) {
+    localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(DEFAULT_CATEGORIES));
   }
 }
 
@@ -142,7 +170,7 @@ export function addAuditLog(text) {
     time: timeStr,
     text: text
   };
-  const updated = [newLog, ...logs].slice(0, 50); // keep recent 50
+  const updated = [newLog, ...logs].slice(0, 60); // keep recent 60
   localStorage.setItem(STORAGE_KEYS.LOGS, JSON.stringify(updated));
   return updated;
 }
@@ -157,6 +185,45 @@ export function clearAuditLogsStorage() {
   return logs;
 }
 
+// ----------------- SETTINGS -----------------
+export function getStoredSettings() {
+  return safeParse(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
+}
+
+export function saveStoredSettings(settings) {
+  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+}
+
+// ----------------- CATEGORIES -----------------
+export function getStoredCategories() {
+  return safeParse(STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES);
+}
+
+export function saveStoredCategories(categories) {
+  localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(categories));
+}
+
+// ----------------- FACTORY RESET -----------------
+export function resetAllToFactorySeeds() {
+  localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(INITIAL_USERS));
+  localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(INITIAL_PROJECTS));
+  localStorage.setItem(STORAGE_KEYS.APPLICATIONS, JSON.stringify(INITIAL_APPLICATIONS));
+  localStorage.setItem(STORAGE_KEYS.LOGS, JSON.stringify(INITIAL_AUDIT_LOGS));
+  localStorage.setItem(STORAGE_KEYS.BOOKMARKS, JSON.stringify([]));
+  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(DEFAULT_SETTINGS));
+  localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(DEFAULT_CATEGORIES));
+
+  return {
+    users: INITIAL_USERS,
+    projects: INITIAL_PROJECTS,
+    applications: INITIAL_APPLICATIONS,
+    logs: INITIAL_AUDIT_LOGS,
+    bookmarks: [],
+    settings: DEFAULT_SETTINGS,
+    categories: DEFAULT_CATEGORIES
+  };
+}
+
 // ----------------- THEME -----------------
 export function getStoredTheme() {
   return localStorage.getItem(STORAGE_KEYS.THEME) || "dark";
@@ -165,4 +232,3 @@ export function getStoredTheme() {
 export function saveStoredTheme(theme) {
   localStorage.setItem(STORAGE_KEYS.THEME, theme);
 }
-

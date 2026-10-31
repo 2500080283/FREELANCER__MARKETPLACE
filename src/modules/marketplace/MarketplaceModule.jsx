@@ -5,6 +5,8 @@ import { INITIAL_FREELANCERS } from '../../data/initialData';
 export function MarketplaceModule({
   projects = [],
   bookmarks = [],
+  categories = [],
+  settings = {},
   onToggleBookmark,
   onOpenApply,
   onOpenProfile,
@@ -206,13 +208,13 @@ export function MarketplaceModule({
         {/* Filter & Search Bar */}
         <div className="filter-bar">
           <div className="filter-categories" id="categoryFilters">
-            {['All', 'Web Development', 'UI/UX & Design', 'Mobile Apps', 'AI & Data'].map(cat => (
+            {['All', ...(categories.length > 0 ? categories : ['Web Development', 'UI/UX Design', 'Mobile Apps', 'AI & Machine Learning'])].map(cat => (
               <button
                 key={cat}
                 className={`category-pill ${selectedCategory === cat ? 'active' : ''}`}
                 onClick={() => setSelectedCategory(cat)}
               >
-                {cat === 'All' ? 'All Projects' : (cat === 'Web Development' ? 'Web Dev' : cat)}
+                {cat === 'All' ? 'All Projects' : cat}
               </button>
             ))}
           </div>
@@ -396,7 +398,11 @@ export function MarketplaceModule({
       </section>
 
       {/* Post Project Section with Real-Time Live Card Preview */}
-      <PostProjectSection onProjectCreated={onProjectCreated} />
+      <PostProjectSection
+        onProjectCreated={onProjectCreated}
+        categories={categories}
+        settings={settings}
+      />
     </div>
   );
 }

@@ -15,7 +15,12 @@ import {
   addAuditLog,
   clearAuditLogsStorage,
   getStoredTheme,
-  saveStoredTheme
+  saveStoredTheme,
+  getStoredSettings,
+  saveStoredSettings,
+  getStoredCategories,
+  saveStoredCategories,
+  resetAllToFactorySeeds
 } from './data/storage';
 
 // Common Components
@@ -49,6 +54,8 @@ export function App() {
   const [bookmarks, setBookmarks] = useState([]);
   const [users, setUsers] = useState([]);
   const [auditLogs, setAuditLogs] = useState([]);
+  const [settings, setSettings] = useState({});
+  const [categories, setCategories] = useState([]);
 
   // Modals state
   const [applyModalProject, setApplyModalProject] = useState(null);
@@ -69,6 +76,8 @@ export function App() {
     setBookmarks(getStoredBookmarks());
     setUsers(getStoredUsers());
     setAuditLogs(getStoredLogs());
+    setSettings(getStoredSettings());
+    setCategories(getStoredCategories());
   }, []);
 
   // Sync body class for landing module vs marketplace/user/admin
@@ -278,8 +287,107 @@ export function App() {
     showToast('Audit logs history cleared.', 'info');
   };
 
+  // Admin: Update settings
+  const handleUpdateSettings = (newSettings) => {
+    setSettings(newSettings);
+    saveStoredSettings(newSettings);
+    const logs = addAuditLog('Admin updated platform configuration settings.');
+    setAuditLogs(logs);
+    showToast('Platform settings updated successfully.', 'success');
+  };
+
+  // Admin: Update categories
+  const handleUpdateCategories = (newCategories) => {
+    setCategories(newCategories);
+    saveStoredCategories(newCategories);
+    const logs = addAuditLog(`Admin updated platform taxonomy categories (Total: ${newCategories.length}).`);
+    setAuditLogs(logs);
+  };
+
+  // Admin: Escrow Arbitrations & Actions
+  const handleEscrowAction = (appId, newEscrowState, newProjectStatus) => {
+    const targetApp = applications.find(a => a.id === appId);
+    const updatedApps = applications.map(a => {
+      if (a.id === appId) {
+        return { ...a, escrowState: newEscrowState };
+      }
+      return a;
+    });
+    setApplications(updatedApps);
+    saveStoredApplications(updatedApps);
+
+    if (newProjectStatus && targetApp) {
+      const updatedProjects = projects.map(p => {
+        if (p.id === targetApp.projectId) {
+          return { ...p, status: newProjectStatus };
+        }
+        return p;
+      });
+      setProjects(updatedProjects);
+      saveStoredProjects(updatedProjects);
+    }
+
+    const logs = addAuditLog(`Admin arbitrated escrow for "${targetApp?.projectTitle || appId}": Set state to "${newEscrowState}".`);
+    setAuditLogs(logs);
+    showToast(`Escrow status updated: ${newEscrowState}.`, 'success');
+  };
+
+  // Admin: Reset user password
+  const handleResetUserPassword = (userId, newPassword) => {
+    const updated = users.map(u => {
+      if (u.id === userId) {
+        return { ...u, password: newPassword };
+      }
+      return u;
+    });
+    setUsers(updated);
+    saveStoredUsers(updated);
+    const target = users.find(u => u.id === userId);
+    const logs = addAuditLog(`Admin reset password for user: "${target?.name || userId}".`);
+    setAuditLogs(logs);
+    showToast(`Password updated for ${target?.name || 'user'}.`, 'success');
+  };
+
+  // Admin: Reset Platform to Factory Seeds
+  const handleResetFactoryData = () => {
+    const factory = resetAllToFactorySeeds();
+    setUsers(factory.users);
+    setProjects(factory.projects);
+    setApplications(factory.applications);
+    setBookmarks(factory.bookmarks);
+    setAuditLogs(factory.logs);
+    setSettings(factory.settings);
+    setCategories(factory.categories);
+    showToast('Platform database successfully reset to factory demo seeds.', 'success');
+  };
+
   return (
     <div className={`app-container ${activeModule === 'landing' ? 'view-landing' : ''}`}>
+      {/* Maintenance Mode Warning Banner */}
+      {settings.maintenanceMode && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          background: 'linear-gradient(90deg, #f59e0b, #d97706)',
+          color: '#000000',
+          padding: '6px 16px',
+          textAlign: 'center',
+          fontSize: '12.5px',
+          fontWeight: 700,
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+        }}>
+          <span>⚠️</span>
+          <span>SYSTEM NOTICE: FreelanceHub is currently in Administrator Maintenance Mode. Some actions may be restricted.</span>
+        </div>
+      )}
+
       {/* Exact Full-Viewport Cover Video Behind All UI / All Interfaces */}
       <div className="bg">
         <video className="bg-video" autoPlay muted loop playsInline>
@@ -307,6 +415,8 @@ export function App() {
         <MarketplaceModule
           projects={projects}
           bookmarks={bookmarks}
+          categories={categories}
+          settings={settings}
           onToggleBookmark={handleToggleBookmark}
           onOpenApply={(proj) => setApplyModalProject(proj)}
           onOpenProfile={(free) => setProfileModalFreelancer(free)}
@@ -332,14 +442,21 @@ export function App() {
           projects={projects}
           applications={applications}
           auditLogs={auditLogs}
+          settings={settings}
+          categories={categories}
           onUpdateProjectStatus={handleUpdateProjectStatus}
           onToggleFeatureProject={handleToggleFeatureProject}
           onDeleteProject={handleDeleteProject}
           onUpdateUserStatus={handleUpdateUserStatus}
           onUpdateUserRole={handleUpdateUserRole}
           onDeleteUser={handleDeleteUser}
+          onResetUserPassword={handleResetUserPassword}
           onOpenCreateUser={() => setAdminUserModalOpen(true)}
           onClearAuditLogs={handleClearAuditLogs}
+          onUpdateSettings={handleUpdateSettings}
+          onUpdateCategories={handleUpdateCategories}
+          onEscrowAction={handleEscrowAction}
+          onResetFactoryData={handleResetFactoryData}
           onNavigateMarketplace={() => setActiveModule('marketplace')}
         />
       )}
