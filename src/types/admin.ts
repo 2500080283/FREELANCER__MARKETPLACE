@@ -24,3 +24,4 @@ export interface AdminModuleProps {
 }
 
 export type AdminModerationTab = 'analytics' | 'projects' | 'users' | 'proposals' | 'categories' | 'settings' | 'logs';
+

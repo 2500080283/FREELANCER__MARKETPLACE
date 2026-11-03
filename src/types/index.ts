@@ -112,3 +112,4 @@ export interface ClientSpending {
   completedDisbursedTotal: number;
   totalCommittedBudget: number;
 }
+

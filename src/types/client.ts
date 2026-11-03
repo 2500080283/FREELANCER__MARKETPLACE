@@ -13,3 +13,4 @@ export interface ClientModuleProps {
 }
 
 export type ClientTab = 'projects' | 'contracts' | 'post' | 'profile';
+

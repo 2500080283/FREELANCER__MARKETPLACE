@@ -11,3 +11,4 @@ export interface UserModuleProps {
 }
 
 export type UserWorkspaceTab = 'proposals' | 'projects' | 'bookmarks' | 'profile';
+
