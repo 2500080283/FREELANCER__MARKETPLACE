@@ -210,7 +210,7 @@ body:not(.view-landing) {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - clamp(28px, 6vw, 64px));
-  max-width: 860px;
+  max-width: 960px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,9 +264,9 @@ body:not(.view-landing) {
 .nav-pill {
   background: #ffffff;
   height: clamp(44px, 5.2vw, 48px);
-  max-width: 480px;
+  max-width: 580px;
   flex: 1;
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: 999px;
   box-shadow: var(--nav-shadow);
   display: flex;
@@ -278,13 +278,13 @@ body:not(.view-landing) {
 .nav-link {
   font-family: var(--font-sans);
   font-weight: 500;
-  font-size: clamp(13px, 1.35vw, 15px);
+  font-size: clamp(12.5px, 1.25vw, 14.5px);
   letter-spacing: -0.01em;
   color: var(--nav-text);
   opacity: 0.55;
   text-decoration: none;
   position: relative;
-  padding: 8px 14px;
+  padding: 8px clamp(8px, 1.1vw, 13px);
   display: inline-flex;
   align-items: center;
   justify-content: center;

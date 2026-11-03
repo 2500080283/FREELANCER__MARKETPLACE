@@ -36,6 +36,14 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     setMobileMenuOpen(false);
     setUserDropdownOpen(false);
 
+    if (moduleName === 'client') {
+      if (!currentUser) {
+        showToast('Please sign in to access the Client Portal.', 'info');
+        openAuthModal('signin');
+        return;
+      }
+    }
+
     if (moduleName === 'user') {
       if (!currentUser) {
         showToast('Please sign in to access your User Workspace.', 'info');
@@ -90,6 +98,12 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
             onClick={() => handleNavClick('marketplace')}
           >
             Marketplace
+          </button>
+          <button
+            className={`nav-link ${activeModule === 'client' ? 'active' : ''}`}
+            onClick={() => handleNavClick('client')}
+          >
+            Client Hub
           </button>
           <button
             className={`nav-link ${activeModule === 'user' ? 'active' : ''}`}
@@ -158,6 +172,29 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
                   </div>
 
                   <button
+                    onClick={() => handleNavClick('client')}
+                    style={{
+                      width: '100%',
+                      textAlign: 'left',
+                      padding: '9px 12px',
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-primary)',
+                      cursor: 'pointer',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'background 0.15s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+                  >
+                    🏢 Client Workspace
+                  </button>
+
+                  <button
                     onClick={() => handleNavClick('user')}
                     style={{
                       width: '100%',
@@ -177,7 +214,7 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
                     onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
                     onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                   >
-                    👤 Workspace Dashboard
+                    👤 Freelancer Workspace
                   </button>
 
                   {currentUser.role === 'Admin' && (
@@ -271,6 +308,12 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
               onClick={() => handleNavClick('marketplace')}
             >
               Marketplace
+            </button>
+            <button
+              className={`mobile-nav-link ${activeModule === 'client' ? 'active' : ''}`}
+              onClick={() => handleNavClick('client')}
+            >
+              Client Module {currentUser?.role === 'Client' ? '(Employer)' : ''}
             </button>
             <button
               className={`mobile-nav-link ${activeModule === 'user' ? 'active' : ''}`}

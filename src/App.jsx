@@ -37,6 +37,7 @@ import { AdminUserModal } from './components/modals/AdminUserModal';
 // Modules
 import { LandingModule } from './modules/landing/LandingModule';
 import { MarketplaceModule } from './modules/marketplace/MarketplaceModule';
+import { ClientModule } from './modules/client/ClientModule';
 import { UserModule } from './modules/user/UserModule';
 import { AdminModule } from './modules/admin/AdminModule';
 
@@ -103,9 +104,12 @@ export function App() {
     if (user.role === 'Admin') {
       setActiveModule('admin');
       showToast('🛡️ Redirected to Administrator Control Center.', 'info');
+    } else if (user.role === 'Client') {
+      setActiveModule('client');
+      showToast('🏢 Redirected to Client Management Center.', 'info');
     } else {
       setActiveModule('user');
-      showToast(`Redirected to ${user.role} Workspace.`, 'info');
+      showToast(`Redirected to Freelancer Workspace.`, 'info');
     }
   };
 
@@ -421,6 +425,20 @@ export function App() {
           onOpenApply={(proj) => setApplyModalProject(proj)}
           onOpenProfile={(free) => setProfileModalFreelancer(free)}
           onProjectCreated={handleProjectCreated}
+        />
+      )}
+
+      {activeModule === 'client' && (
+        <ClientModule
+          projects={projects}
+          applications={applications}
+          categories={categories}
+          settings={settings}
+          onOpenClientProposals={(proj) => setClientViewingProject(proj)}
+          onAcceptProposal={handleAcceptProposal}
+          onEscrowAction={handleEscrowAction}
+          onProjectCreated={handleProjectCreated}
+          onNavigateMarketplace={() => setActiveModule('marketplace')}
         />
       )}
 
