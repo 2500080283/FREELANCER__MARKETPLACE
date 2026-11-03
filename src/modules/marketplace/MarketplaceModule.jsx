@@ -8,7 +8,6 @@ export function MarketplaceModule({
   settings = {},
   onToggleBookmark,
   onOpenApply,
-  onOpenProfile,
   onProjectCreated
 }) {
   // Search & Filter state

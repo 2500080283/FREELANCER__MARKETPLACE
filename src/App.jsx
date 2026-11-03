@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from './context/AuthContext';
 import { useToast } from './context/ToastContext';
 import {
   initLocalStorage,
@@ -42,7 +41,6 @@ import { UserModule } from './modules/user/UserModule';
 import { AdminModule } from './modules/admin/AdminModule';
 
 export function App() {
-  const { currentUser } = useAuth();
   const { showToast } = useToast();
 
   // Navigation & Theme
@@ -423,7 +421,6 @@ export function App() {
           settings={settings}
           onToggleBookmark={handleToggleBookmark}
           onOpenApply={(proj) => setApplyModalProject(proj)}
-          onOpenProfile={(free) => setProfileModalFreelancer(free)}
           onProjectCreated={handleProjectCreated}
         />
       )}
@@ -435,7 +432,6 @@ export function App() {
           categories={categories}
           settings={settings}
           onOpenClientProposals={(proj) => setClientViewingProject(proj)}
-          onAcceptProposal={handleAcceptProposal}
           onEscrowAction={handleEscrowAction}
           onProjectCreated={handleProjectCreated}
           onNavigateMarketplace={() => setActiveModule('marketplace')}

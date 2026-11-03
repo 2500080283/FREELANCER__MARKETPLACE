@@ -9,7 +9,6 @@ export function ClientModule({
   categories = [],
   settings = {},
   onOpenClientProposals,
-  onAcceptProposal,
   onEscrowAction,
   onProjectCreated,
   onNavigateMarketplace

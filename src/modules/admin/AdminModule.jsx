@@ -120,7 +120,6 @@ export function AdminModule({
     .reduce((sum, a) => sum + (Number(a.bid) || 0), 0);
 
   const platformNetCommission = Math.round((activeEscrowVolume + releasedPayouts) * (commissionRate / 100));
-  const avgProjectBudget = projects.length > 0 ? Math.round(grossMarketplaceValue / projects.length) : 0;
   const pendingApprovals = projects.filter(p => p.status === 'pending').length;
 
   // Demographics breakdown

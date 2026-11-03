@@ -15,7 +15,6 @@ import {
   saveStoredSettings,
   getStoredCategories,
   saveStoredCategories,
-  getStoredLogs,
   addAuditLog,
   clearAuditLogsStorage,
   resetAllToFactorySeeds
