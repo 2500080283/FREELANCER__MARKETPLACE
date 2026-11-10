@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
 export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
-  const { currentUser, logout, openAuthModal } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { showToast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -39,7 +39,8 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     if (moduleName === 'client') {
       if (!currentUser) {
         showToast('Please sign in to access the Client Portal.', 'info');
-        openAuthModal('signin');
+        setActiveModule('login');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
     }
@@ -47,7 +48,8 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     if (moduleName === 'user') {
       if (!currentUser) {
         showToast('Please sign in to access your User Workspace.', 'info');
-        openAuthModal('signin');
+        setActiveModule('login');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
     }
@@ -55,7 +57,8 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
     if (moduleName === 'admin') {
       if (!currentUser || currentUser.role !== 'Admin') {
         showToast('🛡️ Access restricted: Administrator credentials required.', 'warning');
-        openAuthModal('signin');
+        setActiveModule('login');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
     }
@@ -271,8 +274,8 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
             </div>
           ) : (
             <button
-              className="desktop-signin btn-signin"
-              onClick={() => openAuthModal('signin')}
+              className={`desktop-signin btn-signin ${activeModule === 'login' ? 'active' : ''}`}
+              onClick={() => handleNavClick('login')}
             >
               Sign in
             </button>
@@ -347,13 +350,10 @@ export function Navbar({ activeModule, setActiveModule, theme, toggleTheme }) {
               </button>
             ) : (
               <button
-                className="btn-signin"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openAuthModal('signin');
-                }}
+                className={`btn-signin ${activeModule === 'login' ? 'active' : ''}`}
+                onClick={() => handleNavClick('login')}
               >
-                Sign in
+                Sign in / Register
               </button>
             )}
           </nav>

@@ -39,6 +39,7 @@ import { MarketplaceModule } from './modules/marketplace/MarketplaceModule';
 import { ClientModule } from './modules/client/ClientModule';
 import { UserModule } from './modules/user/UserModule';
 import { AdminModule } from './modules/admin/AdminModule';
+import { LoginPage } from './modules/auth/LoginPage';
 
 export function App() {
   const { showToast } = useToast();
@@ -79,10 +80,12 @@ export function App() {
     setCategories(getStoredCategories());
   }, []);
 
-  // Sync body class for landing module vs marketplace/user/admin
+  // Sync body class for landing module vs marketplace/user/admin/login
   useEffect(() => {
     if (activeModule === 'landing') {
       document.body.className = 'view-landing';
+    } else if (activeModule === 'login') {
+      document.body.className = 'view-login';
     } else {
       document.body.className = 'view-app';
     }
@@ -410,7 +413,21 @@ export function App() {
 
       {/* MODULE ROUTING */}
       {activeModule === 'landing' && (
-        <LandingModule onGetStarted={() => setActiveModule('marketplace')} />
+        <LandingModule
+          onGetStarted={() => { setActiveModule('marketplace'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          onPostProject={() => { setActiveModule('client'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          onCategorySelect={() => { setActiveModule('marketplace'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          projects={projects}
+          onNavigateLogin={() => { setActiveModule('login'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          onOpenApply={(proj) => setApplyModalProject(proj)}
+        />
+      )}
+
+      {activeModule === 'login' && (
+        <LoginPage
+          onLoginSuccess={handleLoginSuccess}
+          onNavigate={(mod) => { setActiveModule(mod); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        />
       )}
 
       {activeModule === 'marketplace' && (
@@ -475,9 +492,9 @@ export function App() {
         />
       )}
 
-      {/* Global Footer (shown on all modules except landing) */}
-      {activeModule !== 'landing' && (
-        <Footer onNavigateMarketplace={() => setActiveModule('marketplace')} />
+      {/* Global Footer (shown on all modules except dedicated login page) */}
+      {activeModule !== 'login' && (
+        <Footer onNavigateMarketplace={() => { setActiveModule('marketplace'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
       )}
 
       {/* MODALS */}
